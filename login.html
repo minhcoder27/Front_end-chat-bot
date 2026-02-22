@@ -20,6 +20,9 @@
             --text-gray: #a0aec0;          
             --border-color: #2d3748;
             --bg-overlay: rgba(14, 28, 47, 0.75); 
+            
+            /* Đẩy bong bóng chat của n8n lên trên (dành cho biến mặc định) */
+            --chat--toggle-bottom: 80px; 
         }
 
         body { font-family: 'Inter', sans-serif; background-image: linear-gradient(var(--bg-overlay), var(--bg-overlay)), url('https://images.unsplash.com/photo-1497366216548-37526070297c?ixlib=rb-1.2.1&auto=format&fit=crop&w=1920&q=80'); background-size: cover; background-position: center; background-attachment: fixed; margin: 0; display: flex; flex-direction: column; min-height: 100vh; overflow-x: hidden; }
@@ -28,57 +31,15 @@
         .app-header { position: fixed; top: 0; left: 0; right: 0; width: 100%; box-sizing: border-box; background-color: transparent; padding: 25px 50px; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid rgba(255,255,255,0.1); z-index: 9999; transition: all 0.4s ease; }
         .app-header.scrolled { background-color: rgba(14, 28, 47, 0.95); backdrop-filter: blur(10px); padding: 15px 50px; box-shadow: 0 4px 20px rgba(0,0,0,0.4); border-bottom: none; }
 
-        /* ========================================= */
-        /* LOGO CSS CHUẨN (Đã fix theo design mới)   */
-        /* ========================================= */
-        .site-logo {
-            font-family: 'Inter', sans-serif; /* Đổi sang Inter để giống form chữ ở ảnh 2 */
-            font-size: 32px;
-            text-decoration: none;
-            display: flex;
-            align-items: center;
-            gap: 6px; /* Khoảng cách giữa khối xanh và chữ */
-            transition: opacity 0.3s;
-        }
-        .site-logo:hover {
-            opacity: 0.9;
-        }
-        .site-logo .logo-box {
-            background-color: var(--accent-blue);
-            color: #ffffff;
-            padding: 4px 10px;
-            font-weight: 700;
-            line-height: 1;
-            letter-spacing: 1px;
-        }
-        .site-logo .logo-text {
-            color: #ffffff;
-            font-weight: 600;
-            letter-spacing: 3px; /* Kéo dãn chữ SOLUTIONS một chút */
-        }
-        .site-logo-footer {
-            font-size: 26px; /* Thu nhỏ logo ở footer */
-        }
-        /* ========================================= */
+        /* LOGO */
+        .site-logo { font-family: 'Inter', sans-serif; font-size: 32px; text-decoration: none; display: flex; align-items: center; gap: 6px; transition: opacity 0.3s; }
+        .site-logo:hover { opacity: 0.9; }
+        .site-logo .logo-box { background-color: var(--accent-blue); color: #ffffff; padding: 4px 10px; font-weight: 700; line-height: 1; letter-spacing: 1px; }
+        .site-logo .logo-text { color: #ffffff; font-weight: 600; letter-spacing: 3px; }
 
-        .header-nav { display: flex; align-items: center; gap: 25px; }
-        .nav-link { color: white; text-decoration: none; font-size: 13px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; transition: 0.3s; cursor: pointer; display: flex; align-items: center; gap: 5px; }
-        .nav-link:hover { color: var(--accent-blue); }
-
-        /* CHỌN NGÔN NGỮ */
-        .lang-wrapper { position: relative; display: inline-block; }
-        .lang-selector { display: flex; align-items: center; gap: 8px; color: white; font-size: 13px; font-weight: 600; cursor: pointer; padding: 5px 0; transition: 0.3s; }
-        .lang-selector:hover { color: var(--accent-blue); }
-        .lang-selector img { width: 22px; border-radius: 2px; box-shadow: 0 0 2px rgba(0,0,0,0.5); }
-        
-        #currentLang { display: inline-block; width: 85px; text-align: left; }
-        
-        .lang-dropdown { position: absolute; top: 100%; right: 0; margin-top: 15px; width: 150px; background: white; border-radius: 4px; box-shadow: 0 10px 30px rgba(0,0,0,0.2); display: none; flex-direction: column; overflow: hidden; z-index: 2000; }
-        .lang-dropdown.active { display: flex; animation: fadeIn 0.2s ease; }
-        .lang-option { padding: 12px 15px; display: flex; align-items: center; gap: 12px; font-size: 13px; color: #333; cursor: pointer; font-weight: 600; transition: 0.2s; }
-        .lang-option img { width: 22px; border-radius: 2px; }
-        .lang-option:hover { background: #f0f4f8; color: var(--accent-blue); }
-
+        /* BUTTONS */
+        .btn-header { background-color: transparent; color: white; border: 1px solid rgba(255,255,255,0.5); padding: 8px 16px; font-size: 13px; font-weight: 600; text-transform: uppercase; cursor: pointer; transition: 0.3s; border-radius: 4px; }
+        .btn-header:hover { background-color: var(--accent-blue); border-color: var(--accent-blue); }
         .btn-contact { background-color: var(--primary-navy); color: white; border: 1px solid rgba(255,255,255,0.2); padding: 10px 24px; font-size: 13px; font-weight: 600; text-transform: uppercase; cursor: pointer; transition: 0.3s; border-radius: 2px; }
         .btn-contact:hover { background-color: var(--accent-blue); border-color: var(--accent-blue); }
 
@@ -91,6 +52,18 @@
         .menu-item:hover { background: #f4f6f8; }
         .menu-item.danger { color: #dc2626; border-top: 1px solid #eee; }
 
+        /* LANGUAGE */
+        .lang-wrapper { position: relative; display: inline-block; }
+        .lang-selector { display: flex; align-items: center; gap: 8px; color: white; font-size: 13px; font-weight: 600; cursor: pointer; padding: 5px 0; transition: 0.3s; }
+        .lang-selector:hover { color: var(--accent-blue); }
+        .lang-selector img { width: 22px; border-radius: 2px; box-shadow: 0 0 2px rgba(0,0,0,0.5); }
+        #currentLang { display: inline-block; width: 85px; text-align: left; }
+        .lang-dropdown { position: absolute; top: 100%; right: 0; margin-top: 15px; width: 150px; background: white; border-radius: 4px; box-shadow: 0 10px 30px rgba(0,0,0,0.2); display: none; flex-direction: column; overflow: hidden; z-index: 2000; }
+        .lang-dropdown.active { display: flex; animation: fadeIn 0.2s ease; }
+        .lang-option { padding: 12px 15px; display: flex; align-items: center; gap: 12px; font-size: 13px; color: #333; cursor: pointer; font-weight: 600; transition: 0.2s; }
+        .lang-option img { width: 22px; border-radius: 2px; }
+        .lang-option:hover { background: #f0f4f8; color: var(--accent-blue); }
+
         /* MAIN CONTENT */
         .app-main { flex: 1; display: flex; justify-content: center; align-items: center; padding: 120px 20px 50px; position: relative; }
         #chat-container { width: 100%; max-width: 1100px; height: 75vh; min-height: 600px; background: #ffffff; border-radius: 8px; box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5); overflow: hidden; display: none; }
@@ -102,10 +75,11 @@
         .auth-header-form h2 { margin: 0; color: var(--primary-navy); font-family: 'Oswald', sans-serif; font-size: 28px; text-transform: uppercase; letter-spacing: 1px;}
         .auth-header-form p { color: #64748b; font-size: 14px; margin-top: 8px; }
         
-        .input-group { margin-bottom: 18px; }
+        .input-group { margin-bottom: 18px; text-align: left; }
         .input-group label { display: block; font-size: 13px; font-weight: 600; margin-bottom: 6px; color: #334155; }
-        input { width: 100%; padding: 12px 14px; border: 1px solid #cbd5e1; border-radius: 4px; box-sizing: border-box; outline: none; transition: 0.3s; font-family: 'Inter', sans-serif;}
-        input:focus { border-color: var(--accent-blue); box-shadow: 0 0 0 3px rgba(59, 156, 212, 0.15); }
+        input, textarea { width: 100%; padding: 12px 14px; border: 1px solid #cbd5e1; border-radius: 4px; box-sizing: border-box; outline: none; transition: 0.3s; font-family: 'Inter', sans-serif;}
+        input:focus, textarea:focus { border-color: var(--accent-blue); box-shadow: 0 0 0 3px rgba(59, 156, 212, 0.15); }
+        textarea { resize: vertical; min-height: 100px; }
         
         .btn-submit { width: 100%; padding: 14px; background: var(--accent-blue); color: white; border: none; border-radius: 4px; font-weight: 600; font-size: 14px; cursor: pointer; transition: 0.3s; text-transform: uppercase; letter-spacing: 0.5px; }
         .btn-submit:hover { background: #2f85b8; }
@@ -119,29 +93,23 @@
         .gdpr-checkbox { font-size: 12px; margin-bottom: 20px; display: flex; align-items: flex-start; color: #475569;}
         .gdpr-checkbox input { width: auto; margin-right: 10px; margin-top: 2px; }
 
-        /* FOOTER */
-        .site-footer { background-color: var(--primary-navy); color: white; padding: 50px 50px 20px; font-size: 14px; }
-        .footer-grid { display: grid; grid-template-columns: 2fr 1.5fr 1.5fr 1fr; gap: 30px; margin-bottom: 40px; }
-        .footer-col h4 { font-family: 'Oswald', sans-serif; font-size: 20px; margin: 0 0 20px 0; font-weight: 600; letter-spacing: 0.5px; }
-        .footer-text { color: var(--text-gray); line-height: 1.8; margin-bottom: 8px;}
-        .footer-link { color: var(--text-gray); text-decoration: none; display: block; margin-bottom: 12px; transition: 0.3s; }
-        .footer-link:hover { color: var(--accent-blue); }
-        .footer-contact-item { color: var(--text-gray); margin-bottom: 12px; line-height: 1.6;}
-        .text-blue { color: var(--accent-blue) !important; font-weight: 500;}
+        /* FOOTER SIMPLIFIED */
+        .site-footer { background-color: var(--primary-navy); border-top: 1px solid rgba(255,255,255,0.1); color: var(--text-gray); padding: 20px 50px; font-size: 13px; display: flex; justify-content: space-between; align-items: center; }
+        .site-footer a { color: var(--text-gray); text-decoration: none; margin-left: 20px; transition: 0.3s; font-weight: 500; }
+        .site-footer a:hover { color: var(--accent-blue); }
+        .footer-links { display: flex; align-items: center; }
+
+        /* MODALS (POP-UP) */
+        .modal-overlay { position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.6); backdrop-filter: blur(5px); z-index: 10000; display: none; justify-content: center; align-items: center; }
+        .modal-overlay.active { display: flex; animation: fadeIn 0.3s ease; }
+        .modal-content { background: #fff; padding: 30px; border-radius: 8px; width: 100%; max-width: 500px; position: relative; box-shadow: 0 20px 40px rgba(0,0,0,0.4); text-align: center; }
+        .modal-close { position: absolute; top: 15px; right: 20px; font-size: 24px; cursor: pointer; color: #64748b; transition: 0.3s; }
+        .modal-close:hover { color: #dc2626; }
+        .modal-title { margin-top: 0; color: var(--primary-navy); font-family: 'Oswald', sans-serif; text-transform: uppercase; }
         
-        .flag-group { display: flex; gap: 15px; margin-top: 20px;}
-        .flag-item { display: flex; align-items: center; gap: 8px; font-weight: 600; font-size: 13px; cursor: pointer; transition: 0.2s;}
-        .flag-item:hover { color: var(--accent-blue); opacity: 0.8;}
-        .flag-item img { width: 22px; border-radius: 2px; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(-10px); } to { opacity: 1; transform: translateY(0); } }
+        @media (max-width: 768px) { .app-header { padding: 15px 20px; } .site-footer { padding: 15px 20px; flex-direction: column; gap: 10px; text-align: center; } }
 
-        .footer-bottom { border-top: 1px solid var(--border-color); padding-top: 20px; display: flex; justify-content: space-between; align-items: center; color: var(--text-gray); font-size: 13px; }
-        .footer-bottom a { color: var(--accent-blue); text-decoration: none; }
-        .social-icon { color: white; background: #1a2a40; width: 32px; height: 32px; border-radius: 50%; display: flex; justify-content: center; align-items: center; text-decoration: none; transition: 0.3s; }
-        .social-icon:hover { background: var(--accent-blue); }
-
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(-5px); } to { opacity: 1; transform: translateY(0); } }
-        @media (max-width: 992px) { .footer-grid { grid-template-columns: 1fr 1fr; } .header-nav { display: none; } }
-        @media (max-width: 768px) { .footer-grid { grid-template-columns: 1fr; } .app-header { padding: 15px 20px; } .app-header.scrolled { padding: 10px 20px; } .site-footer { padding: 30px 20px 20px; } }
     </style>
 </head>
 <body>
@@ -152,14 +120,7 @@
             <span class="logo-text">SOLUTIONS</span>
         </a>
         
-        <nav class="header-nav">
-            <a href="#" class="nav-link" data-i18n="nav_home">HOME</a>
-            <a href="#" class="nav-link" data-i18n="nav_about">ABOUT US</a>
-            <a href="#" class="nav-link" data-i18n="nav_services">SERVICES</a>
-            <a href="#" class="nav-link"><span data-i18n="nav_knowledge">USEFUL KNOWLEDGE</span> <i class="fas fa-chevron-down" style="font-size: 10px;"></i></a>
-        </nav>
-
-        <div style="display: flex; align-items: center; gap: 30px;">
+        <div style="display: flex; align-items: center; gap: 20px;">
             <div class="lang-wrapper" id="langWrapper">
                 <div class="lang-selector" onclick="toggleLangMenu()">
                     <img src="https://flagcdn.com/w40/gb.png" alt="EN" id="currentFlag">
@@ -178,22 +139,23 @@
                     </div>
                 </div>
             </div>
-            
-            <button class="btn-contact" id="btnContactOrig" data-i18n="btn_contact">Contact</button>
+
+            <button class="btn-header" onclick="openModal('guideModal')">Guide</button>
+            <button class="btn-header" onclick="openModal('contactModal')">Contact</button>
 
             <div class="user-menu-wrapper" id="userSettings">
                 <button class="btn-contact" onclick="toggleSettings()" style="background: var(--accent-blue); border-color: var(--accent-blue);">
-                    <i class="fas fa-user" style="margin-right: 5px;"></i> <span data-i18n="btn_account">My Account</span>
+                    <i class="fas fa-user" style="margin-right: 5px;"></i> <span>My Account</span>
                 </button>
                 <div class="user-dropdown" id="settingsDropdown">
                     <div class="menu-item" style="cursor: default; font-weight: bold; border-bottom: 1px solid #eee;">
                         <span id="userEmailDisplay" style="word-break: break-all;">User</span>
                     </div>
                     <div class="menu-item" onclick="location.reload()">
-                        <i class="fas fa-sign-out-alt"></i> <span data-i18n="menu_logout">Logout</span>
+                        <i class="fas fa-sign-out-alt"></i> <span>Logout</span>
                     </div>
                     <div class="menu-item danger" onclick="requestDeleteAccount()">
-                        <i class="fas fa-trash-alt"></i> <span data-i18n="menu_delete">Delete Account</span>
+                        <i class="fas fa-trash-alt"></i> <span>Delete Account</span>
                     </div>
                 </div>
             </div>
@@ -204,91 +166,84 @@
         <div id="chat-container"></div>
         <div class="auth-card" id="authCard">
             <div class="auth-header-form">
-                <h2 id="formTitle" data-i18n="form_title_login">AI ASSISTANT LOGIN</h2>
-                <p data-i18n="form_subtitle">Welcome to A2D Solutions Client Portal</p>
+                <h2 id="formTitle">AI ASSISTANT LOGIN</h2>
+                <p>Welcome to A2D Solutions Client Portal</p>
             </div>
             <form id="authForm" onsubmit="handleSubmit(event)">
                 <div id="credentialsGroup">
                     <div class="input-group">
-                        <label data-i18n="label_email">Email Address</label>
+                        <label>Email Address</label>
                         <input type="email" id="email" placeholder="example@gmail.com" required>
                     </div>
                     <div class="input-group">
-                        <label data-i18n="label_password">Password</label>
+                        <label>Password</label>
                         <input type="password" id="password" placeholder="••••••••" required>
                     </div>
                     <div class="input-group hidden" id="confirmPassGroup">
-                        <label data-i18n="label_confirm">Confirm Password</label>
+                        <label>Confirm Password</label>
                         <input type="password" id="confirmPassword" placeholder="••••••••">
                     </div>
                 </div>
                 
                 <div id="gdprGroup" class="gdpr-checkbox hidden">
                     <input type="checkbox" id="gdprConsent">
-                    <label for="gdprConsent"><span data-i18n="text_agree">I agree to the</span> <a href="#" style="color: var(--accent-blue);" data-i18n="text_terms">Terms & Conditions</a></label>
+                    <label for="gdprConsent">I agree to the <a href="privacy-policy.html" style="color: var(--accent-blue);">Terms & Conditions</a></label>
                 </div>
 
                 <div id="otpGroup" class="hidden">
                     <div class="input-group">
-                        <label data-i18n="label_otp">6-Digit OTP (Sent to your email)</label>
+                        <label>6-Digit OTP (Sent to your email)</label>
                         <input type="text" id="otpInput" maxlength="6" style="text-align:center; letter-spacing: 8px; font-size: 20px; font-weight: bold;">
                     </div>
                 </div>
 
                 <div id="message"></div>
-                <button type="submit" class="btn-submit" id="submitBtn" style="margin-top: 10px;" data-i18n="btn_signin">Sign In</button>
+                <button type="submit" class="btn-submit" id="submitBtn" style="margin-top: 10px;">Sign In</button>
             </form>
             <div class="switch-mode" id="switchModeGroup" onclick="toggleMode()">
-                <span data-i18n="text_newclient">New client?</span> <span style="color: var(--accent-blue); font-weight: 600;" data-i18n="text_register">Click here to Register</span>
+                <span id="switchSpan1">New client?</span> <span id="switchSpan2" style="color: var(--accent-blue); font-weight: 600;">Click here to Register</span>
             </div>
         </div>
     </main>
 
     <footer class="site-footer">
-        <div class="footer-grid">
-            <div class="footer-col">
-                <div style="margin-bottom: 20px;">
-                    <a href="#" class="site-logo site-logo-footer">
-                        <span class="logo-box">A2D</span>
-                        <span class="logo-text">SOLUTIONS</span>
-                    </a>
-                </div>
-                <div class="footer-text">A2D SOLUTIONS Sp. z o.o.</div>
-                <div class="footer-text">REGON: 524064945</div>
-                <div class="footer-text">NIP: 7011123129</div>
-            </div>
-            <div class="footer-col">
-                <h4 data-i18n="footer_contact">Contact Info</h4>
-                <div class="footer-contact-item text-blue" data-i18n="footer_address">Address</div>
-                <div class="footer-contact-item">Lutniowa 21, 02-388 Ochota,<br>Warszawa</div>
-                <div class="footer-contact-item text-blue" style="margin-top: 20px;" data-i18n="footer_phone">Telephones</div>
-                <div class="footer-contact-item">+48 604 285 036 (VN)</div>
-                <div class="footer-contact-item">+48 888 866 266 (PL)</div>
-                <div class="footer-contact-item">+48 515 208 900 (EN)</div>
-            </div>
-            <div class="footer-col">
-                <h4 data-i18n="footer_working">Working hours</h4>
-                <div class="footer-contact-item text-blue" data-i18n="footer_days">Every business day</div>
-                <div class="footer-contact-item">10:00 - 17:00</div>
-                
-                <div class="flag-group">
-                    <div class="flag-item" onclick="changeLanguage('ENGLISH', 'gb', 'en')"><img src="https://flagcdn.com/w40/gb.png" alt="EN"> EN</div>
-                    <div class="flag-item" onclick="changeLanguage('TIẾNG VIỆT', 'vn', 'vn')"><img src="https://flagcdn.com/w40/vn.png" alt="VI"> VI</div>
-                    <div class="flag-item" onclick="changeLanguage('POLSKI', 'pl', 'pl')"><img src="https://flagcdn.com/w40/pl.png" alt="PL"> PL</div>
-                </div>
-            </div>
-            <div class="footer-col">
-                <h4 data-i18n="footer_terms">Terms</h4>
-                <a href="#" class="footer-link">Privacy Policy</a>
-                <a href="#" class="footer-link">Regulations</a>
-                <a href="#" class="footer-link">GDPR</a>
-            </div>
-        </div>
-        <div class="footer-bottom">
-            <div>Copyright A2D SOLUTIONS © 2024 — Designed by <a href="#">OH! Ba Lan</a></div>
-            <a href="#" class="social-icon"><i class="fab fa-facebook-f"></i></a>
+        <div>Copyright A2D SOLUTIONS © 2024 — Designed by OH! Ba Lan</div>
+        <div class="footer-links">
+            <a href="privacy-policy.html">Privacy Policy</a>
+            <a href="rodo.html">RODO</a>
         </div>
     </footer>
+
+    <div class="modal-overlay" id="guideModal">
+        <div class="modal-content">
+            <div class="modal-close" onclick="closeModal('guideModal')">&times;</div>
+            <h2 class="modal-title">User Guide</h2>
+            <p style="color: #475569; line-height: 1.6; text-align: left; margin-top: 20px;">
+                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer nec odio. Praesent libero. Sed cursus ante dapibus diam. Sed nisi. Nulla quis sem at nibh elementum imperdiet. 
+                <br><br>
+                (Đây là nội dung nháp, sếp sẽ đưa nội dung thật sau nha bro!)
+            </p>
+        </div>
+    </div>
+
+    <div class="modal-overlay" id="contactModal">
+        <div class="modal-content">
+            <div class="modal-close" onclick="closeModal('contactModal')">&times;</div>
+            <h2 class="modal-title">Contact Us</h2>
+            <form id="contactForm" onsubmit="handleContactSubmit(event)" style="margin-top: 20px;">
+                <div class="input-group">
+                    <label>Your Email</label>
+                    <input type="email" id="contactEmail" placeholder="Enter your email..." required>
+                </div>
+                <div class="input-group">
+                    <label>Message / Issue</label>
+                    <textarea id="contactMessage" placeholder="Describe your message or issue..." required></textarea>
+                </div>
+                <div id="contactFormMessage"></div>
+                <button type="submit" class="btn-submit" id="contactSubmitBtn">Send Message</button>
+            </form>
+        </div>
+    </div>
 
     <script type="module">
         import { createChat } from 'https://cdn.jsdelivr.net/npm/@n8n/chat@latest/dist/chat.bundle.es.js';
@@ -298,72 +253,19 @@
         const URL_VERIFY  = 'https://n8n.a2dzespol.pl/webhook/e05cd05b-f854-48ca-bc15-ca75ca32edf9'; 
         const URL_CHAT    = 'https://n8n.a2dzespol.pl/webhook/d8451693-0079-4da7-b3a3-ec1561bd2da3';
         const URL_DELETE  = 'https://n8n.a2dzespol.pl/webhook/7e75278a-2bc2-4832-b601-39085570f7aa';
+        
+        const URL_CONTACT_WEBHOOK = 'https://n8n.a2dzespol.pl/webhook/366a0816-3157-4425-9bb5-5aa258c94161';
 
         let isLoginMode = true;
         let isVerifyStep = false;
         
         window.currentAppLanguage = 'en';
 
-        const translations = {
-            en: {
-                nav_home: "HOME", nav_about: "ABOUT US", nav_services: "SERVICES", nav_knowledge: "USEFUL KNOWLEDGE",
-                btn_contact: "Contact", btn_account: "My Account", menu_logout: "Logout", menu_delete: "Delete Account",
-                form_title_login: "AI ASSISTANT LOGIN", form_title_reg: "CREATE ACCOUNT", form_subtitle: "Welcome to A2D Solutions Client Portal",
-                label_email: "Email Address", label_password: "Password", label_confirm: "Confirm Password", label_otp: "6-Digit OTP (Sent to your email)",
-                text_agree: "I agree to the", text_terms: "Terms & Conditions", btn_signin: "Sign In", btn_register: "Register Now",
-                text_newclient: "New client?", text_register: "Click here to Register", text_haveaccount: "Already have an account?", text_loginhere: "Sign In here",
-                footer_contact: "Contact Info", footer_address: "Address", footer_phone: "Telephones", footer_working: "Working hours", footer_days: "Every business day", footer_terms: "Terms",
-                msg_processing: "Processing...", msg_verify: "Verify OTP"
-            },
-            vn: {
-                nav_home: "TRANG CHỦ", nav_about: "GIỚI THIỆU", nav_services: "DỊCH VỤ", nav_knowledge: "KIẾN THỨC",
-                btn_contact: "Liên hệ", btn_account: "Tài khoản", menu_logout: "Đăng xuất", menu_delete: "Xóa tài khoản",
-                form_title_login: "ĐĂNG NHẬP HỆ THỐNG", form_title_reg: "TẠO TÀI KHOẢN MỚI", form_subtitle: "Chào mừng đến với Cổng khách hàng A2D Solutions",
-                label_email: "Địa chỉ Email", label_password: "Mật khẩu", label_confirm: "Nhập lại Mật khẩu", label_otp: "Mã OTP 6 số (Gửi qua email)",
-                text_agree: "Tôi đồng ý với", text_terms: "Điều khoản sử dụng", btn_signin: "Đăng nhập", btn_register: "Đăng ký ngay",
-                text_newclient: "Khách hàng mới?", text_register: "Bấm vào đây để Đăng ký", text_haveaccount: "Đã có tài khoản?", text_loginhere: "Quay lại Đăng nhập",
-                footer_contact: "Thông tin liên hệ", footer_address: "Địa chỉ", footer_phone: "Điện thoại", footer_working: "Giờ làm việc", footer_days: "Tất cả ngày làm việc", footer_terms: "Điều khoản",
-                msg_processing: "Đang xử lý...", msg_verify: "Xác nhận OTP"
-            },
-            pl: {
-                nav_home: "GŁÓWNA", nav_about: "O NAS", nav_services: "USŁUGI", nav_knowledge: "BAZA WIEDZY",
-                btn_contact: "Kontakt", btn_account: "Moje Konto", menu_logout: "Wyloguj się", menu_delete: "Usuń konto",
-                form_title_login: "LOGOWANIE", form_title_reg: "UTWÓRZ KONTO", form_subtitle: "Witamy w Portalu Klienta A2D Solutions",
-                label_email: "Adres e-mail", label_password: "Hasło", label_confirm: "Potwierdź hasło", label_otp: "6-cyfrowy OTP (wysłany na e-mail)",
-                text_agree: "Akceptuję", text_terms: "Regulamin", btn_signin: "Zaloguj się", btn_register: "Zarejestruj się",
-                text_newclient: "Nowy klient?", text_register: "Kliknij, aby się zarejestrować", text_haveaccount: "Masz już konto?", text_loginhere: "Zaloguj się tutaj",
-                footer_contact: "Dane kontaktowe", footer_address: "Adres", footer_phone: "Telefony", footer_working: "Godziny pracy", footer_days: "Każdy dzień roboczy", footer_terms: "Regulamin",
-                msg_processing: "Przetwarzanie...", msg_verify: "Weryfikuj OTP"
-            }
-        };
-
         window.changeLanguage = function(langName, flagCode, langCode) {
             document.getElementById('currentLang').innerText = langName;
             document.getElementById('currentFlag').src = `https://flagcdn.com/w40/${flagCode}.png`;
             document.getElementById('langDropdown').classList.remove('active');
-            
             window.currentAppLanguage = langCode;
-
-            const elements = document.querySelectorAll('[data-i18n]');
-            elements.forEach(el => {
-                const key = el.getAttribute('data-i18n');
-                if(translations[langCode] && translations[langCode][key]) {
-                    el.innerText = translations[langCode][key];
-                }
-            });
-
-            updateFormUI();
-        }
-
-        function updateFormUI() {
-            const lang = window.currentAppLanguage;
-            document.getElementById('formTitle').innerText = isLoginMode ? translations[lang].form_title_login : translations[lang].form_title_reg;
-            document.getElementById('submitBtn').innerText = isVerifyStep ? translations[lang].msg_verify : (isLoginMode ? translations[lang].btn_signin : translations[lang].btn_register);
-            
-            const switchSpan1 = document.querySelector('#switchModeGroup span:first-child');
-            const switchSpan2 = document.querySelector('#switchModeGroup span:last-child');
-            switchSpan1.innerText = isLoginMode ? translations[lang].text_newclient : translations[lang].text_haveaccount;
-            switchSpan2.innerText = isLoginMode ? " " + translations[lang].text_register : " " + translations[lang].text_loginhere;
         }
 
         window.addEventListener('scroll', () => {
@@ -374,15 +276,22 @@
 
         window.toggleLangMenu = function() { document.getElementById('langDropdown').classList.toggle('active'); }
         window.toggleSettings = function() { document.getElementById('settingsDropdown').classList.toggle('active'); }
-
+        
         document.addEventListener('click', function(event) {
             if (!document.getElementById('userSettings').contains(event.target)) { document.getElementById('settingsDropdown').classList.remove('active'); }
             if (!document.getElementById('langWrapper').contains(event.target)) { document.getElementById('langDropdown').classList.remove('active'); }
         });
 
+        window.openModal = function(id) { document.getElementById(id).classList.add('active'); }
+        window.closeModal = function(id) { document.getElementById(id).classList.remove('active'); }
+
         window.toggleMode = function() {
             isLoginMode = !isLoginMode;
-            updateFormUI();
+            
+            document.getElementById('formTitle').innerText = isLoginMode ? "AI ASSISTANT LOGIN" : "CREATE ACCOUNT";
+            document.getElementById('submitBtn').innerText = isLoginMode ? "Sign In" : "Register Now";
+            document.getElementById('switchSpan1').innerText = isLoginMode ? "New client?" : "Already have an account?";
+            document.getElementById('switchSpan2').innerText = isLoginMode ? " Click here to Register" : " Sign In here";
             
             const confirmGroup = document.getElementById('confirmPassGroup');
             const gdprGroup = document.getElementById('gdprGroup');
@@ -407,10 +316,9 @@
             const password = document.getElementById('password').value;
             const msg = document.getElementById('message');
             const btn = document.getElementById('submitBtn');
-            const lang = window.currentAppLanguage;
 
             msg.innerText = '';
-            btn.innerText = translations[lang].msg_processing;
+            btn.innerText = "Processing...";
             btn.disabled = true;
 
             try {
@@ -419,11 +327,16 @@
                     const res = await fetch(URL_VERIFY, {
                         method: 'POST',
                         headers: {'Content-Type': 'application/json'},
-                        body: JSON.stringify({email, otp, lang}) 
+                        body: JSON.stringify({email, otp}) 
                     });
                     const data = await res.json();
-                    if (data.status === 'success') loginSuccess(email);
-                    else throw new Error(data.message || "Invalid OTP!");
+                    
+                    if (data.status === 'success') {
+                        // Bắt cả 2 trường hợp tên biến trả về từ n8n
+                        const finalThreadId = data.Thread_ID || data.threadId;
+                        const finalCreatedAt = data.Created_at || data.createdAt;
+                        loginSuccess(email, finalThreadId, finalCreatedAt);
+                    } else throw new Error(data.message || "Invalid OTP!");
                 } else {
                     if (!isLoginMode) {
                         const confirm = document.getElementById('confirmPassword').value;
@@ -435,12 +348,15 @@
                     const res = await fetch(url, {
                         method: 'POST',
                         headers: {'Content-Type': 'application/json'},
-                        body: JSON.stringify({email, password, lang}) 
+                        body: JSON.stringify({email, password}) 
                     });
                     const data = await res.json();
 
                     if (data.status === 'success') {
-                        loginSuccess(email);
+                        // Bắt cả 2 trường hợp tên biến trả về từ n8n để không bao giờ bị xịt
+                        const finalThreadId = data.Thread_ID || data.threadId;
+                        const finalCreatedAt = data.Created_at || data.createdAt;
+                        loginSuccess(email, finalThreadId, finalCreatedAt);
                     } else if (data.status === 'pending_verification') {
                         isVerifyStep = true;
                         document.getElementById('credentialsGroup').classList.add('hidden');
@@ -448,7 +364,8 @@
                         document.getElementById('confirmPassGroup').classList.add('hidden');
                         document.getElementById('otpGroup').classList.remove('hidden');
                         document.getElementById('switchModeGroup').classList.add('hidden');
-                        updateFormUI();
+                        
+                        btn.innerText = "Verify OTP";
                         btn.disabled = false;
                         msg.className = "success";
                         msg.innerText = "OTP sent!";
@@ -460,21 +377,58 @@
                 msg.className = "error";
                 msg.innerText = err.message;
                 btn.disabled = false;
-                updateFormUI();
+                btn.innerText = isVerifyStep ? "Verify OTP" : (isLoginMode ? "Sign In" : "Register Now");
             }
         }
 
-        function loginSuccess(email) {
+        window.handleContactSubmit = async function(e) {
+            e.preventDefault();
+            const email = document.getElementById('contactEmail').value.trim();
+            const message = document.getElementById('contactMessage').value.trim();
+            const msgBox = document.getElementById('contactFormMessage');
+            const btn = document.getElementById('contactSubmitBtn');
+
+            msgBox.innerText = '';
+            btn.innerText = "Sending...";
+            btn.disabled = true;
+
+            try {
+                const res = await fetch(URL_CONTACT_WEBHOOK, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ email: email, message: message })
+                });
+
+                if (res.ok) {
+                    msgBox.className = "success";
+                    msgBox.innerText = "Message sent successfully!";
+                    document.getElementById('contactForm').reset();
+                } else {
+                    throw new Error("Failed to send message.");
+                }
+            } catch (error) {
+                msgBox.className = "error";
+                msgBox.innerText = "An error occurred. Please try again.";
+            } finally {
+                btn.innerText = "Send Message";
+                btn.disabled = false;
+            }
+        }
+
+        // Tên tham số URL đẩy đi CHẮC CHẮN sẽ là Thread_ID
+        function loginSuccess(email, Thread_ID, Created_at) {
             window.userEmail = email;
+            window.userThread_ID = Thread_ID; 
+            window.userCreated_at = Created_at; 
+
             document.getElementById('authCard').classList.add('hidden');
             const chatContainer = document.getElementById('chat-container');
             chatContainer.style.display = 'block'; 
 
-            document.getElementById('btnContactOrig').style.display = 'none';
             document.getElementById('userSettings').style.display = 'block';
             document.getElementById('userEmailDisplay').innerText = email;
 
-            initChatbot(email);
+            initChatbot(email, Thread_ID, Created_at);
         }
 
         window.requestDeleteAccount = async function() {
@@ -485,16 +439,24 @@
             } catch(e) { alert("Error"); }
         }
 
-        function initChatbot(email) {
+        // Tạo URL Chat
+        // Tạo URL Chat đã chỉnh sửa để luôn có Thread_ID và Created_at
+        function initChatbot(email, Thread_ID, Created_at) {
             document.getElementById('chat-container').innerHTML = '';
-            const chatUrl = `${URL_CHAT}?userEmail=${encodeURIComponent(email)}&lang=${window.currentAppLanguage}`;
+            
+            // Nếu Thread_ID hoặc Created_at không có giá trị, tự động gán bằng chuỗi rỗng ""
+            const safeThreadID = Thread_ID ? Thread_ID : "";
+            const safeCreatedAt = Created_at ? Created_at : "";
+            
+            // Nối chuỗi URL: Luôn luôn gắn tham số vào dù có giá trị hay không
+            let chatUrl = `${URL_CHAT}?userEmail=${encodeURIComponent(email)}&lang=${window.currentAppLanguage}&Thread_ID=${encodeURIComponent(safeThreadID)}&Created_at=${encodeURIComponent(safeCreatedAt)}`;
 
             createChat({
                 webhookUrl: chatUrl,
                 target: '#chat-container', 
                 mode: 'window', 
                 showWelcomeScreen: true,
-                initialMessages: [], // Thêm dòng này để làm trống các tin nhắn mặc định ban đầu
+                initialMessages: [], 
                 style: { width: '100%', height: '100%', position: 'relative' }
             });
         }
