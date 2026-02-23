@@ -20,9 +20,6 @@
             --text-gray: #a0aec0;          
             --border-color: #2d3748;
             --bg-overlay: rgba(14, 28, 47, 0.75); 
-            
-            /* Đẩy bong bóng chat của n8n lên trên (dành cho biến mặc định) */
-            --chat--toggle-bottom: 80px; 
         }
 
         body { font-family: 'Inter', sans-serif; background-image: linear-gradient(var(--bg-overlay), var(--bg-overlay)), url('https://images.unsplash.com/photo-1497366216548-37526070297c?ixlib=rb-1.2.1&auto=format&fit=crop&w=1920&q=80'); background-size: cover; background-position: center; background-attachment: fixed; margin: 0; display: flex; flex-direction: column; min-height: 100vh; overflow-x: hidden; }
@@ -66,7 +63,9 @@
 
         /* MAIN CONTENT */
         .app-main { flex: 1; display: flex; justify-content: center; align-items: center; padding: 120px 20px 50px; position: relative; }
-        #chat-container { width: 100%; max-width: 1100px; height: 75vh; min-height: 600px; background: #ffffff; border-radius: 8px; box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5); overflow: hidden; display: none; }
+        
+        /* Cấu hình lại Chat Container để hiển thị giống ChatGPT */
+        #chat-container { width: 100%; max-width: 900px; height: 75vh; min-height: 600px; background: #ffffff; border-radius: 12px; box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5); overflow: hidden; display: none; position: relative; }
 
         .auth-card { background: rgba(255, 255, 255, 0.98); padding: 40px; border-radius: 4px; box-shadow: 0 20px 40px rgba(0,0,0,0.3); width: 100%; max-width: 420px; border-top: 4px solid var(--accent-blue); }
         .hidden { display: none !important; }
@@ -164,6 +163,7 @@
 
     <main class="app-main">
         <div id="chat-container"></div>
+        
         <div class="auth-card" id="authCard">
             <div class="auth-header-form">
                 <h2 id="formTitle">AI ASSISTANT LOGIN</h2>
@@ -253,7 +253,6 @@
         const URL_VERIFY  = 'https://n8n.a2dzespol.pl/webhook/e05cd05b-f854-48ca-bc15-ca75ca32edf9'; 
         const URL_CHAT    = 'https://n8n.a2dzespol.pl/webhook/d8451693-0079-4da7-b3a3-ec1561bd2da3';
         const URL_DELETE  = 'https://n8n.a2dzespol.pl/webhook/7e75278a-2bc2-4832-b601-39085570f7aa';
-        
         const URL_CONTACT_WEBHOOK = 'https://n8n.a2dzespol.pl/webhook/366a0816-3157-4425-9bb5-5aa258c94161';
 
         let isLoginMode = true;
@@ -332,7 +331,6 @@
                     const data = await res.json();
                     
                     if (data.status === 'success') {
-                        // Bắt cả 2 trường hợp tên biến trả về từ n8n
                         const finalThreadId = data.Thread_ID || data.threadId;
                         const finalCreatedAt = data.Created_at || data.createdAt;
                         loginSuccess(email, finalThreadId, finalCreatedAt);
@@ -353,7 +351,6 @@
                     const data = await res.json();
 
                     if (data.status === 'success') {
-                        // Bắt cả 2 trường hợp tên biến trả về từ n8n để không bao giờ bị xịt
                         const finalThreadId = data.Thread_ID || data.threadId;
                         const finalCreatedAt = data.Created_at || data.createdAt;
                         loginSuccess(email, finalThreadId, finalCreatedAt);
@@ -415,7 +412,6 @@
             }
         }
 
-        // Tên tham số URL đẩy đi CHẮC CHẮN sẽ là Thread_ID
         function loginSuccess(email, Thread_ID, Created_at) {
             window.userEmail = email;
             window.userThread_ID = Thread_ID; 
@@ -439,22 +435,19 @@
             } catch(e) { alert("Error"); }
         }
 
-        // Tạo URL Chat
-        // Tạo URL Chat đã chỉnh sửa để luôn có Thread_ID và Created_at
         function initChatbot(email, Thread_ID, Created_at) {
             document.getElementById('chat-container').innerHTML = '';
             
-            // Nếu Thread_ID hoặc Created_at không có giá trị, tự động gán bằng chuỗi rỗng ""
             const safeThreadID = Thread_ID ? Thread_ID : "";
             const safeCreatedAt = Created_at ? Created_at : "";
             
-            // Nối chuỗi URL: Luôn luôn gắn tham số vào dù có giá trị hay không
             let chatUrl = `${URL_CHAT}?userEmail=${encodeURIComponent(email)}&lang=${window.currentAppLanguage}&Thread_ID=${encodeURIComponent(safeThreadID)}&Created_at=${encodeURIComponent(safeCreatedAt)}`;
 
+            // Đổi mode từ 'window' sang 'fullscreen' để fill đầy #chat-container
             createChat({
                 webhookUrl: chatUrl,
                 target: '#chat-container', 
-                mode: 'window', 
+                mode: 'fullscreen', 
                 showWelcomeScreen: true,
                 initialMessages: [], 
                 style: { width: '100%', height: '100%', position: 'relative' }
