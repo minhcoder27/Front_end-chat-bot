@@ -3,158 +3,144 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>A2D Solutions - Complete services for foreigners</title>
+    <title>A2D Solutions - Dịch vụ toàn diện cho người nước ngoài</title>
     
     <link rel="icon" href="https://a2dsolutions.pl/wp-content/uploads/2022/11/cropped-Logo-1-32x32.png" sizes="32x32">
     <link rel="icon" href="https://a2dsolutions.pl/wp-content/uploads/2022/11/cropped-Logo-1-192x192.png" sizes="192x192">
     <link rel="apple-touch-icon" href="https://a2dsolutions.pl/wp-content/uploads/2022/11/cropped-Logo-1-180x180.png">
     
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Oswald:wght@400;500;600;700&display=swap" rel="stylesheet">
-    <link href="https://cdn.jsdelivr.net/npm/@n8n/chat/dist/style.css" rel="stylesheet" />
+    <link href="https://cdn.jsdelivr.net/npm/@n8n/chat@1.1.1/dist/style.css" rel="stylesheet" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 
     <style>
         :root {
-            --primary-navy: #0e1c2f;       
+            --primary-navy: #102136;       
             --accent-blue: #3b9cd4;        
+            --accent-blue-hover: #2a7eb5;
             --text-gray: #a0aec0;          
             --border-color: #2d3748;
-            --bg-overlay: rgba(14, 28, 47, 0.75); 
+            --bg-light: #f8fafc;
+            --text-dark: #0f172a;
         }
 
-        body { font-family: 'Inter', sans-serif; background-image: linear-gradient(var(--bg-overlay), var(--bg-overlay)), url('https://images.unsplash.com/photo-1497366216548-37526070297c?ixlib=rb-1.2.1&auto=format&fit=crop&w=1920&q=80'); background-size: cover; background-position: center; background-attachment: fixed; margin: 0; display: flex; flex-direction: column; min-height: 100vh; overflow-x: hidden; }
+        /* Base & Scrollbar */
+        body { font-family: 'Inter', sans-serif; background-color: var(--bg-light); color: var(--text-dark); margin: 0; display: flex; flex-direction: column; min-height: 100vh; overflow-x: hidden; line-height: 1.6; }
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: #f1f1f1; }
+        ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: var(--text-gray); }
 
         /* HEADER */
-        .app-header { position: fixed; top: 0; left: 0; right: 0; width: 100%; box-sizing: border-box; background-color: transparent; padding: 25px 50px; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid rgba(255,255,255,0.1); z-index: 9999; transition: all 0.4s ease; }
-        .app-header.scrolled { background-color: rgba(14, 28, 47, 0.95); backdrop-filter: blur(10px); padding: 15px 50px; box-shadow: 0 4px 20px rgba(0,0,0,0.4); border-bottom: none; }
-
-        /* LOGO */
-        .site-logo { font-family: 'Inter', sans-serif; font-size: 32px; text-decoration: none; display: flex; align-items: center; gap: 6px; transition: opacity 0.3s; }
-        .site-logo:hover { opacity: 0.9; }
-        .site-logo .logo-box { background-color: var(--accent-blue); color: #ffffff; padding: 4px 10px; font-weight: 700; line-height: 1; letter-spacing: 1px; }
-        .site-logo .logo-text { color: #ffffff; font-weight: 600; letter-spacing: 3px; }
-
+        .app-header { position: fixed; top: 0; left: 0; right: 0; width: 100%; box-sizing: border-box; background-color: var(--primary-navy); padding: 15px 50px; display: flex; justify-content: space-between; align-items: center; z-index: 9999; box-shadow: 0 4px 15px rgba(16, 33, 54, 0.15); transition: all 0.3s ease; }
+        .site-logo { text-decoration: none; display: flex; align-items: center; transition: transform 0.3s ease, opacity 0.3s; flex-shrink: 0; }
+        .site-logo:hover { opacity: 0.9; transform: scale(1.02); }
+        .site-logo img { height: 45px; width: auto; display: block; }
+        
         /* BUTTONS */
-        .btn-header { background-color: transparent; color: white; border: 1px solid rgba(255,255,255,0.5); padding: 8px 16px; font-size: 13px; font-weight: 600; text-transform: uppercase; cursor: pointer; transition: 0.3s; border-radius: 4px; }
-        .btn-header:hover { background-color: var(--accent-blue); border-color: var(--accent-blue); }
-        .btn-contact { background-color: var(--primary-navy); color: white; border: 1px solid rgba(255,255,255,0.2); padding: 10px 24px; font-size: 13px; font-weight: 600; text-transform: uppercase; cursor: pointer; transition: 0.3s; border-radius: 2px; }
-        .btn-contact:hover { background-color: var(--accent-blue); border-color: var(--accent-blue); }
+        .header-actions { display: flex; align-items: center; gap: 15px; }
+        .btn-header { background-color: transparent; color: white; border: 1px solid rgba(255,255,255,0.3); padding: 8px 18px; font-size: 13px; font-weight: 600; text-transform: uppercase; cursor: pointer; transition: all 0.3s ease; border-radius: 6px; letter-spacing: 0.5px; }
+        .btn-header:hover { background-color: rgba(255,255,255,0.1); border-color: white; transform: translateY(-1px); }
+        .btn-contact { background-color: var(--accent-blue); color: white; border: 1px solid var(--accent-blue); padding: 10px 24px; font-size: 13px; font-weight: 600; text-transform: uppercase; cursor: pointer; transition: all 0.3s ease; border-radius: 6px; letter-spacing: 0.5px; display: flex; align-items: center; box-shadow: 0 4px 10px rgba(59, 156, 212, 0.3); }
+        .btn-contact:hover { background-color: var(--accent-blue-hover); border-color: var(--accent-blue-hover); transform: translateY(-1px); box-shadow: 0 6px 15px rgba(59, 156, 212, 0.4); }
 
         /* USER MENU */
-        .user-menu-wrapper { position: relative; display: none; }
-        .user-dropdown { position: absolute; top: 40px; right: 0; width: 200px; background: white; border-radius: 4px; box-shadow: 0 10px 30px rgba(0,0,0,0.3); display: none; overflow: hidden; z-index: 2000; }
-        .user-dropdown.active { display: block; }
-        .menu-item { padding: 12px 20px; display: flex; align-items: center; color: #333; cursor: pointer; font-size: 13px; font-weight: 500;}
-        .menu-item i { margin-right: 12px; width: 16px; text-align: center; }
-        .menu-item:hover { background: #f4f6f8; }
-        .menu-item.danger { color: #dc2626; border-top: 1px solid #eee; }
-
-        /* LANGUAGE */
-        .lang-wrapper { position: relative; display: inline-block; }
-        .lang-selector { display: flex; align-items: center; gap: 8px; color: white; font-size: 13px; font-weight: 600; cursor: pointer; padding: 5px 0; transition: 0.3s; }
-        .lang-selector:hover { color: var(--accent-blue); }
-        .lang-selector img { width: 22px; border-radius: 2px; box-shadow: 0 0 2px rgba(0,0,0,0.5); }
-        #currentLang { display: inline-block; width: 85px; text-align: left; }
-        .lang-dropdown { position: absolute; top: 100%; right: 0; margin-top: 15px; width: 150px; background: white; border-radius: 4px; box-shadow: 0 10px 30px rgba(0,0,0,0.2); display: none; flex-direction: column; overflow: hidden; z-index: 2000; }
-        .lang-dropdown.active { display: flex; animation: fadeIn 0.2s ease; }
-        .lang-option { padding: 12px 15px; display: flex; align-items: center; gap: 12px; font-size: 13px; color: #333; cursor: pointer; font-weight: 600; transition: 0.2s; }
-        .lang-option img { width: 22px; border-radius: 2px; }
-        .lang-option:hover { background: #f0f4f8; color: var(--accent-blue); }
+        .user-menu-wrapper { position: relative; display: inline-block; }
+        .user-dropdown { position: absolute; top: 50px; right: 0; width: 220px; background: white; border-radius: 8px; box-shadow: 0 10px 30px rgba(16, 33, 54, 0.15); display: none; overflow: hidden; z-index: 2000; border: 1px solid #e2e8f0; transform: translateY(10px); opacity: 0; transition: all 0.3s ease; }
+        .user-dropdown.active { display: block; transform: translateY(0); opacity: 1; animation: slideDown 0.2s ease forwards; }
+        @keyframes slideDown { from { opacity: 0; transform: translateY(-10px); } to { opacity: 1; transform: translateY(0); } }
+        .menu-item { padding: 14px 20px; display: flex; align-items: center; color: var(--text-dark); cursor: pointer; font-size: 14px; font-weight: 500; transition: background 0.2s ease; }
+        .menu-item i { margin-right: 12px; width: 16px; text-align: center; color: var(--accent-blue); }
+        .menu-item:hover { background: #f1f5f9; }
+        .menu-item.danger { color: #ef4444; border-top: 1px solid #e2e8f0; }
+        .menu-item.danger i { color: #ef4444; }
 
         /* MAIN CONTENT */
         .app-main { flex: 1; display: flex; justify-content: center; align-items: center; padding: 120px 20px 50px; position: relative; }
         
-        /* Cấu hình lại Chat Container để hiển thị giống ChatGPT */
-        #chat-container { width: 100%; max-width: 900px; height: 75vh; min-height: 600px; background: #ffffff; border-radius: 12px; box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5); overflow: hidden; display: none; position: relative; }
-
-        .auth-card { background: rgba(255, 255, 255, 0.98); padding: 40px; border-radius: 4px; box-shadow: 0 20px 40px rgba(0,0,0,0.3); width: 100%; max-width: 420px; border-top: 4px solid var(--accent-blue); }
+        /* AUTH CARD (Login) */
+        .auth-card { background: #ffffff; padding: 45px 40px; border-radius: 12px; box-shadow: 0 20px 40px rgba(16, 33, 54, 0.1); width: 100%; max-width: 440px; border-top: 5px solid var(--accent-blue); border: 1px solid #e2e8f0; }
         .hidden { display: none !important; }
+        .auth-header-form { text-align: center; margin-bottom: 35px; }
+        .auth-header-form h2 { margin: 0; color: var(--primary-navy); font-family: 'Oswald', sans-serif; font-size: 30px; text-transform: uppercase; letter-spacing: 1px; }
+        .auth-header-form p { color: #64748b; font-size: 14px; margin-top: 10px; font-weight: 500; }
         
-        .auth-header-form { text-align: center; margin-bottom: 30px; }
-        .auth-header-form h2 { margin: 0; color: var(--primary-navy); font-family: 'Oswald', sans-serif; font-size: 28px; text-transform: uppercase; letter-spacing: 1px;}
-        .auth-header-form p { color: #64748b; font-size: 14px; margin-top: 8px; }
-        
-        .input-group { margin-bottom: 18px; text-align: left; }
-        .input-group label { display: block; font-size: 13px; font-weight: 600; margin-bottom: 6px; color: #334155; }
-        input, textarea { width: 100%; padding: 12px 14px; border: 1px solid #cbd5e1; border-radius: 4px; box-sizing: border-box; outline: none; transition: 0.3s; font-family: 'Inter', sans-serif;}
-        input:focus, textarea:focus { border-color: var(--accent-blue); box-shadow: 0 0 0 3px rgba(59, 156, 212, 0.15); }
-        textarea { resize: vertical; min-height: 100px; }
-        
-        .btn-submit { width: 100%; padding: 14px; background: var(--accent-blue); color: white; border: none; border-radius: 4px; font-weight: 600; font-size: 14px; cursor: pointer; transition: 0.3s; text-transform: uppercase; letter-spacing: 0.5px; }
-        .btn-submit:hover { background: #2f85b8; }
-        
-        .switch-mode { text-align: center; margin-top: 20px; font-size: 13px; cursor: pointer; color: #475569; }
-        .switch-mode span { color: var(--accent-blue); font-weight: 600; }
-        .switch-mode:hover span { text-decoration: underline; }
-        
-        .error { color: #dc2626; text-align: center; margin-top: 15px; font-size: 13px; background: #fee2e2; padding: 10px; border-radius: 4px;}
-        .success { color: #059669; text-align: center; margin-top: 15px; font-size: 13px; background: #d1fae5; padding: 10px; border-radius: 4px;}
-        .gdpr-checkbox { font-size: 12px; margin-bottom: 20px; display: flex; align-items: flex-start; color: #475569;}
-        .gdpr-checkbox input { width: auto; margin-right: 10px; margin-top: 2px; }
+        #chat-container { width: 100%; max-width: 1000px; height: 75vh; min-height: 600px; background: #ffffff; border-radius: 16px; box-shadow: 0 25px 50px -12px rgba(16, 33, 54, 0.2); overflow: hidden; display: none; position: relative; border: 1px solid #e2e8f0; }
 
-        /* FOOTER SIMPLIFIED */
-        .site-footer { background-color: var(--primary-navy); border-top: 1px solid rgba(255,255,255,0.1); color: var(--text-gray); padding: 20px 50px; font-size: 13px; display: flex; justify-content: space-between; align-items: center; }
-        .site-footer a { color: var(--text-gray); text-decoration: none; margin-left: 20px; transition: 0.3s; font-weight: 500; }
-        .site-footer a:hover { color: var(--accent-blue); }
+        /* FORM INPUTS */
+        .input-group { margin-bottom: 20px; text-align: left; }
+        .input-group label { display: block; font-size: 13px; font-weight: 600; margin-bottom: 8px; color: var(--primary-navy); text-transform: uppercase; letter-spacing: 0.5px; }
+        input, textarea { width: 100%; padding: 14px 16px; border: 1px solid #cbd5e1; border-radius: 8px; box-sizing: border-box; outline: none; transition: all 0.3s ease; font-family: 'Inter', sans-serif; color: var(--text-dark); background-color: #f8fafc; font-size: 14px; }
+        input:focus, textarea:focus { border-color: var(--accent-blue); background-color: #ffffff; box-shadow: 0 0 0 4px rgba(59, 156, 212, 0.15); }
+        textarea { resize: vertical; min-height: 120px; }
+        
+        .btn-submit { width: 100%; padding: 15px; background: var(--accent-blue); color: white; border: none; border-radius: 8px; font-weight: 600; font-size: 15px; cursor: pointer; transition: all 0.3s ease; text-transform: uppercase; letter-spacing: 1px; box-shadow: 0 4px 12px rgba(59, 156, 212, 0.2); }
+        .btn-submit:hover { background: var(--accent-blue-hover); box-shadow: 0 6px 16px rgba(59, 156, 212, 0.35); transform: translateY(-2px); }
+        .btn-submit:disabled { background: #94a3b8; cursor: not-allowed; transform: none; box-shadow: none; }
+        
+        .switch-mode { text-align: center; margin-top: 25px; font-size: 14px; cursor: pointer; color: #64748b; transition: color 0.3s; }
+        .switch-mode span { color: var(--accent-blue); font-weight: 600; transition: color 0.3s; }
+        .switch-mode:hover span { color: var(--primary-navy); text-decoration: underline; }
+        
+        .error { color: #dc2626; text-align: center; margin-top: 15px; font-size: 13px; background: #fef2f2; padding: 12px; border-radius: 6px; border: 1px solid #fecaca; font-weight: 500;}
+        .success { color: #059669; text-align: center; margin-top: 15px; font-size: 13px; background: #ecfdf5; padding: 12px; border-radius: 6px; border: 1px solid #a7f3d0; font-weight: 500;}
+        
+        .gdpr-checkbox { font-size: 13px; margin-bottom: 20px; display: flex; align-items: flex-start; color: #475569; }
+        .gdpr-checkbox input { width: auto; margin-right: 12px; margin-top: 3px; cursor: pointer; transform: scale(1.1); }
+        .gdpr-checkbox label { cursor: pointer; line-height: 1.5; }
+
+        /* FOOTER */
+        .site-footer { background-color: var(--primary-navy); border-top: 1px solid #1e3a5f; color: var(--text-gray); padding: 25px 50px; font-size: 14px; display: flex; justify-content: space-between; align-items: center; margin-top: auto; }
+        .site-footer a { color: var(--text-gray); text-decoration: none; margin-left: 30px; transition: color 0.3s ease; font-weight: 500; }
+        .site-footer a:hover { color: white; }
         .footer-links { display: flex; align-items: center; }
 
-        /* MODALS (POP-UP) */
-        .modal-overlay { position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.6); backdrop-filter: blur(5px); z-index: 10000; display: none; justify-content: center; align-items: center; }
-        .modal-overlay.active { display: flex; animation: fadeIn 0.3s ease; }
-        .modal-content { background: #fff; padding: 30px; border-radius: 8px; width: 100%; max-width: 500px; position: relative; box-shadow: 0 20px 40px rgba(0,0,0,0.4); text-align: center; }
-        .modal-close { position: absolute; top: 15px; right: 20px; font-size: 24px; cursor: pointer; color: #64748b; transition: 0.3s; }
+        /* MODALS */
+        .modal-overlay { position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(10, 21, 38, 0.6); backdrop-filter: blur(8px); z-index: 10000; display: none; justify-content: center; align-items: center; }
+        .modal-overlay.active { display: flex; animation: fadeInModal 0.3s ease; }
+        .modal-content { background: #fff; padding: 40px; border-radius: 16px; width: 100%; max-width: 500px; position: relative; box-shadow: 0 25px 50px rgba(0, 0, 0, 0.25); text-align: center; transform: translateY(20px); animation: slideUpModal 0.3s ease forwards; border: 1px solid #e2e8f0; }
+        .modal-close { position: absolute; top: 15px; right: 20px; font-size: 28px; cursor: pointer; color: #94a3b8; transition: color 0.3s ease; line-height: 1; }
         .modal-close:hover { color: #dc2626; }
-        .modal-title { margin-top: 0; color: var(--primary-navy); font-family: 'Oswald', sans-serif; text-transform: uppercase; }
+        .modal-title { margin-top: 0; color: var(--primary-navy); font-family: 'Oswald', sans-serif; text-transform: uppercase; font-size: 26px; border-bottom: 2px solid #f1f5f9; padding-bottom: 15px; margin-bottom: 25px; letter-spacing: 0.5px; }
         
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(-10px); } to { opacity: 1; transform: translateY(0); } }
-        @media (max-width: 768px) { .app-header { padding: 15px 20px; } .site-footer { padding: 15px 20px; flex-direction: column; gap: 10px; text-align: center; } }
+        @keyframes fadeInModal { from { opacity: 0; } to { opacity: 1; } }
+        @keyframes slideUpModal { from { transform: translateY(20px); } to { transform: translateY(0); } }
 
+        /* RESPONSIVE */
+        @media (max-width: 768px) { 
+            .app-header { padding: 15px 20px; flex-wrap: wrap; justify-content: center; gap: 15px; } 
+            .header-actions { display: flex; gap: 10px; width: 100%; justify-content: center; flex-wrap: wrap;}
+            .site-footer { padding: 20px; flex-direction: column; gap: 15px; text-align: center; } 
+            .site-footer a { margin: 0 10px; }
+            .auth-card { padding: 30px 20px; }
+            .app-main { padding-top: 160px; }
+        }
     </style>
 </head>
 <body>
 
     <header class="app-header" id="mainHeader">
-        <a href="#" class="site-logo">
-            <span class="logo-box">A2D</span>
-            <span class="logo-text">SOLUTIONS</span>
+        <a href="./login.html" class="site-logo">
+            <img src="https://a2dsolutions.pl/wp-content/uploads/2022/11/Logo_horz_black.png" alt="A2D Solutions Logo">
         </a>
         
-        <div style="display: flex; align-items: center; gap: 20px;">
-            <div class="lang-wrapper" id="langWrapper">
-                <div class="lang-selector" onclick="toggleLangMenu()">
-                    <img src="https://flagcdn.com/w40/gb.png" alt="EN" id="currentFlag">
-                    <span id="currentLang">ENGLISH</span>
-                    <i class="fas fa-chevron-down" style="font-size: 10px;"></i>
-                </div>
-                <div class="lang-dropdown" id="langDropdown">
-                    <div class="lang-option" onclick="changeLanguage('ENGLISH', 'gb', 'en')">
-                        <img src="https://flagcdn.com/w40/gb.png" alt="EN"> ENGLISH
-                    </div>
-                    <div class="lang-option" onclick="changeLanguage('TIẾNG VIỆT', 'vn', 'vn')">
-                        <img src="https://flagcdn.com/w40/vn.png" alt="VI"> TIẾNG VIỆT
-                    </div>
-                    <div class="lang-option" onclick="changeLanguage('POLSKI', 'pl', 'pl')">
-                        <img src="https://flagcdn.com/w40/pl.png" alt="PL"> POLSKI
-                    </div>
-                </div>
-            </div>
+        <div class="header-actions">
+            <button class="btn-header" onclick="openModal('guideModal')">Hướng dẫn</button>
+            <button class="btn-header" onclick="openModal('contactModal')">Liên hệ</button>
 
-            <button class="btn-header" onclick="openModal('guideModal')">Guide</button>
-            <button class="btn-header" onclick="openModal('contactModal')">Contact</button>
-
-            <div class="user-menu-wrapper" id="userSettings">
-                <button class="btn-contact" onclick="toggleSettings()" style="background: var(--accent-blue); border-color: var(--accent-blue);">
-                    <i class="fas fa-user" style="margin-right: 5px;"></i> <span>My Account</span>
+            <div class="user-menu-wrapper" id="userSettings" style="display: none;">
+                <button class="btn-contact" onclick="toggleSettings()">
+                    <i class="fas fa-user" style="margin-right: 5px;"></i> <span>Tài khoản của tôi</span>
                 </button>
                 <div class="user-dropdown" id="settingsDropdown">
-                    <div class="menu-item" style="cursor: default; font-weight: bold; border-bottom: 1px solid #eee;">
-                        <span id="userEmailDisplay" style="word-break: break-all;">User</span>
+                    <div class="menu-item" style="cursor: default; font-weight: bold; border-bottom: 1px solid #e2e8f0; background: #f8fafc;">
+                        <span id="userEmailDisplay" style="word-break: break-all; color: var(--primary-navy);">Người dùng</span>
                     </div>
                     <div class="menu-item" onclick="location.reload()">
-                        <i class="fas fa-sign-out-alt"></i> <span>Logout</span>
+                        <i class="fas fa-sign-out-alt"></i> <span>Đăng xuất</span>
                     </div>
                     <div class="menu-item danger" onclick="requestDeleteAccount()">
-                        <i class="fas fa-trash-alt"></i> <span>Delete Account</span>
+                        <i class="fas fa-trash-alt"></i> <span>Xóa tài khoản</span>
                     </div>
                 </div>
             </div>
@@ -166,61 +152,59 @@
         
         <div class="auth-card" id="authCard">
             <div class="auth-header-form">
-                <h2 id="formTitle">AI ASSISTANT LOGIN</h2>
-                <p>Welcome to A2D Solutions Client Portal</p>
+                <h2 id="formTitle">ĐĂNG NHẬP TRỢ LÝ AI</h2>
+                <p>Chào mừng đến với Cổng thông tin khách hàng A2D Solutions</p>
             </div>
             <form id="authForm" onsubmit="handleSubmit(event)">
                 <div id="credentialsGroup">
                     <div class="input-group">
-                        <label>Email Address</label>
-                        <input type="email" id="email" placeholder="example@gmail.com" required>
+                        <label>Địa chỉ Email</label>
+                        <input type="email" id="email" placeholder="vidu@gmail.com" required>
                     </div>
                     <div class="input-group">
-                        <label>Password</label>
+                        <label>Mật khẩu</label>
                         <input type="password" id="password" placeholder="••••••••" required>
                     </div>
                     <div class="input-group hidden" id="confirmPassGroup">
-                        <label>Confirm Password</label>
+                        <label>Xác nhận mật khẩu</label>
                         <input type="password" id="confirmPassword" placeholder="••••••••">
                     </div>
                 </div>
                 
                 <div id="gdprGroup" class="gdpr-checkbox hidden">
                     <input type="checkbox" id="gdprConsent">
-                    <label for="gdprConsent">I agree to the <a href="privacy-policy.html" style="color: var(--accent-blue);">Terms & Conditions</a></label>
+                    <label for="gdprConsent">Tôi đồng ý với <a href="privacy-policy.html" style="color: var(--accent-blue); text-decoration: none; font-weight: 500;">Điều khoản & Điều kiện</a></label>
                 </div>
 
                 <div id="otpGroup" class="hidden">
                     <div class="input-group">
-                        <label>6-Digit OTP (Sent to your email)</label>
-                        <input type="text" id="otpInput" maxlength="6" style="text-align:center; letter-spacing: 8px; font-size: 20px; font-weight: bold;">
+                        <label>Mã OTP 6 số (Đã gửi tới email)</label>
+                        <input type="text" id="otpInput" maxlength="6" style="text-align:center; letter-spacing: 12px; font-size: 24px; font-weight: bold;">
                     </div>
                 </div>
 
                 <div id="message"></div>
-                <button type="submit" class="btn-submit" id="submitBtn" style="margin-top: 10px;">Sign In</button>
+                <button type="submit" class="btn-submit" id="submitBtn" style="margin-top: 10px;">Đăng nhập</button>
             </form>
             <div class="switch-mode" id="switchModeGroup" onclick="toggleMode()">
-                <span id="switchSpan1">New client?</span> <span id="switchSpan2" style="color: var(--accent-blue); font-weight: 600;">Click here to Register</span>
+                <span id="switchSpan1">Khách hàng mới?</span> <span id="switchSpan2"> Bấm vào đây để đăng ký</span>
             </div>
         </div>
     </main>
 
     <footer class="site-footer">
-        <div>Copyright A2D SOLUTIONS © 2024 — Designed by OH! Ba Lan</div>
+        <div>Copyright A2D SOLUTIONS © 2026</div>
         <div class="footer-links">
-            <a href="privacy-policy.html">Privacy Policy</a>
-            <a href="rodo.html">RODO</a>
+            <a href="privacy-policy.html">Chính sách bảo mật</a>
+            <a href="rodo.html">Chính sách RODO</a>
         </div>
     </footer>
 
     <div class="modal-overlay" id="guideModal">
         <div class="modal-content">
             <div class="modal-close" onclick="closeModal('guideModal')">&times;</div>
-            <h2 class="modal-title">User Guide</h2>
-            <p style="color: #475569; line-height: 1.6; text-align: left; margin-top: 20px;">
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer nec odio. Praesent libero. Sed cursus ante dapibus diam. Sed nisi. Nulla quis sem at nibh elementum imperdiet. 
-                <br><br>
+            <h2 class="modal-title">Hướng dẫn sử dụng</h2>
+            <p style="color: #475569; line-height: 1.6; text-align: left;">
                 (Đây là nội dung nháp, sếp sẽ đưa nội dung thật sau nha bro!)
             </p>
         </div>
@@ -229,24 +213,24 @@
     <div class="modal-overlay" id="contactModal">
         <div class="modal-content">
             <div class="modal-close" onclick="closeModal('contactModal')">&times;</div>
-            <h2 class="modal-title">Contact Us</h2>
-            <form id="contactForm" onsubmit="handleContactSubmit(event)" style="margin-top: 20px;">
+            <h2 class="modal-title">Liên hệ hỗ trợ</h2>
+            <form id="contactForm" onsubmit="handleContactSubmit(event)">
                 <div class="input-group">
-                    <label>Your Email</label>
-                    <input type="email" id="contactEmail" placeholder="Enter your email..." required>
+                    <label>Email của bạn</label>
+                    <input type="email" id="contactEmail" placeholder="Nhập email của bạn..." required>
                 </div>
                 <div class="input-group">
-                    <label>Message / Issue</label>
-                    <textarea id="contactMessage" placeholder="Describe your message or issue..." required></textarea>
+                    <label>Tin nhắn / Vấn đề gặp phải</label>
+                    <textarea id="contactMessage" placeholder="Mô tả tin nhắn hoặc vấn đề của bạn..." required></textarea>
                 </div>
                 <div id="contactFormMessage"></div>
-                <button type="submit" class="btn-submit" id="contactSubmitBtn">Send Message</button>
+                <button type="submit" class="btn-submit" id="contactSubmitBtn">Gửi tin nhắn</button>
             </form>
         </div>
     </div>
 
     <script type="module">
-        import { createChat } from 'https://cdn.jsdelivr.net/npm/@n8n/chat@latest/dist/chat.bundle.es.js';
+        import { createChat } from 'https://cdn.jsdelivr.net/npm/@n8n/chat@1.1.1/dist/chat.bundle.es.js';
 
         const URL_LOGIN   = 'https://n8n.a2dzespol.pl/webhook/3349af0f-ead6-4ba5-a535-f9c993b8fe19'; 
         const URL_SIGNUP  = 'https://n8n.a2dzespol.pl/webhook/f8f58561-ed9e-4a49-b273-7776ba9073a3'; 
@@ -258,27 +242,12 @@
         let isLoginMode = true;
         let isVerifyStep = false;
         
-        window.currentAppLanguage = 'en';
+        window.currentAppLanguage = 'vn';
 
-        window.changeLanguage = function(langName, flagCode, langCode) {
-            document.getElementById('currentLang').innerText = langName;
-            document.getElementById('currentFlag').src = `https://flagcdn.com/w40/${flagCode}.png`;
-            document.getElementById('langDropdown').classList.remove('active');
-            window.currentAppLanguage = langCode;
-        }
-
-        window.addEventListener('scroll', () => {
-            const header = document.getElementById('mainHeader');
-            if (window.scrollY > 50) header.classList.add('scrolled');
-            else header.classList.remove('scrolled');
-        });
-
-        window.toggleLangMenu = function() { document.getElementById('langDropdown').classList.toggle('active'); }
         window.toggleSettings = function() { document.getElementById('settingsDropdown').classList.toggle('active'); }
         
         document.addEventListener('click', function(event) {
             if (!document.getElementById('userSettings').contains(event.target)) { document.getElementById('settingsDropdown').classList.remove('active'); }
-            if (!document.getElementById('langWrapper').contains(event.target)) { document.getElementById('langDropdown').classList.remove('active'); }
         });
 
         window.openModal = function(id) { document.getElementById(id).classList.add('active'); }
@@ -287,10 +256,10 @@
         window.toggleMode = function() {
             isLoginMode = !isLoginMode;
             
-            document.getElementById('formTitle').innerText = isLoginMode ? "AI ASSISTANT LOGIN" : "CREATE ACCOUNT";
-            document.getElementById('submitBtn').innerText = isLoginMode ? "Sign In" : "Register Now";
-            document.getElementById('switchSpan1').innerText = isLoginMode ? "New client?" : "Already have an account?";
-            document.getElementById('switchSpan2').innerText = isLoginMode ? " Click here to Register" : " Sign In here";
+            document.getElementById('formTitle').innerText = isLoginMode ? "ĐĂNG NHẬP TRỢ LÝ AI" : "TẠO TÀI KHOẢN";
+            document.getElementById('submitBtn').innerText = isLoginMode ? "Đăng nhập" : "Đăng ký ngay";
+            document.getElementById('switchSpan1').innerText = isLoginMode ? "Khách hàng mới?" : "Đã có tài khoản?";
+            document.getElementById('switchSpan2').innerText = isLoginMode ? " Bấm vào đây để đăng ký" : " Đăng nhập tại đây";
             
             const confirmGroup = document.getElementById('confirmPassGroup');
             const gdprGroup = document.getElementById('gdprGroup');
@@ -317,7 +286,7 @@
             const btn = document.getElementById('submitBtn');
 
             msg.innerText = '';
-            btn.innerText = "Processing...";
+            btn.innerText = "Đang xử lý...";
             btn.disabled = true;
 
             try {
@@ -334,12 +303,12 @@
                         const finalThreadId = data.Thread_ID || data.threadId;
                         const finalCreatedAt = data.Created_at || data.createdAt;
                         loginSuccess(email, finalThreadId, finalCreatedAt);
-                    } else throw new Error(data.message || "Invalid OTP!");
+                    } else throw new Error(data.message || "Mã OTP không hợp lệ!");
                 } else {
                     if (!isLoginMode) {
                         const confirm = document.getElementById('confirmPassword').value;
-                        if (password !== confirm) throw new Error("Passwords do not match!");
-                        if (!document.getElementById('gdprConsent').checked) throw new Error("Please agree to the Terms!");
+                        if (password !== confirm) throw new Error("Mật khẩu không khớp!");
+                        if (!document.getElementById('gdprConsent').checked) throw new Error("Vui lòng đồng ý với Điều khoản!");
                     }
                     
                     const url = isLoginMode ? URL_LOGIN : URL_SIGNUP;
@@ -362,19 +331,19 @@
                         document.getElementById('otpGroup').classList.remove('hidden');
                         document.getElementById('switchModeGroup').classList.add('hidden');
                         
-                        btn.innerText = "Verify OTP";
+                        btn.innerText = "Xác thực OTP";
                         btn.disabled = false;
                         msg.className = "success";
-                        msg.innerText = "OTP sent!";
+                        msg.innerText = "Đã gửi mã OTP!";
                     } else {
-                        throw new Error(data.message || "Failed.");
+                        throw new Error(data.message || "Thất bại.");
                     }
                 }
             } catch (err) {
                 msg.className = "error";
                 msg.innerText = err.message;
                 btn.disabled = false;
-                btn.innerText = isVerifyStep ? "Verify OTP" : (isLoginMode ? "Sign In" : "Register Now");
+                btn.innerText = isVerifyStep ? "Xác thực OTP" : (isLoginMode ? "Đăng nhập" : "Đăng ký ngay");
             }
         }
 
@@ -386,7 +355,7 @@
             const btn = document.getElementById('contactSubmitBtn');
 
             msgBox.innerText = '';
-            btn.innerText = "Sending...";
+            btn.innerText = "Đang gửi...";
             btn.disabled = true;
 
             try {
@@ -398,16 +367,16 @@
 
                 if (res.ok) {
                     msgBox.className = "success";
-                    msgBox.innerText = "Message sent successfully!";
+                    msgBox.innerText = "Gửi tin nhắn thành công!";
                     document.getElementById('contactForm').reset();
                 } else {
-                    throw new Error("Failed to send message.");
+                    throw new Error("Gửi tin nhắn thất bại.");
                 }
             } catch (error) {
                 msgBox.className = "error";
-                msgBox.innerText = "An error occurred. Please try again.";
+                msgBox.innerText = "Đã xảy ra lỗi. Vui lòng thử lại.";
             } finally {
-                btn.innerText = "Send Message";
+                btn.innerText = "Gửi tin nhắn";
                 btn.disabled = false;
             }
         }
@@ -421,18 +390,18 @@
             const chatContainer = document.getElementById('chat-container');
             chatContainer.style.display = 'block'; 
 
-            document.getElementById('userSettings').style.display = 'block';
+            document.getElementById('userSettings').style.display = 'inline-block';
             document.getElementById('userEmailDisplay').innerText = email;
 
             initChatbot(email, Thread_ID, Created_at);
         }
 
         window.requestDeleteAccount = async function() {
-            if(!confirm("Are you sure?")) return;
+            if(!confirm("Bạn có chắc chắn muốn xóa tài khoản không?")) return;
             try {
                 const res = await fetch(URL_DELETE, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ email: window.userEmail }) });
-                if(res.ok) { location.reload(); } else { alert("Error"); }
-            } catch(e) { alert("Error"); }
+                if(res.ok) { location.reload(); } else { alert("Đã xảy ra lỗi."); }
+            } catch(e) { alert("Đã xảy ra lỗi."); }
         }
 
         function initChatbot(email, Thread_ID, Created_at) {
@@ -443,14 +412,27 @@
             
             let chatUrl = `${URL_CHAT}?userEmail=${encodeURIComponent(email)}&lang=${window.currentAppLanguage}&Thread_ID=${encodeURIComponent(safeThreadID)}&Created_at=${encodeURIComponent(safeCreatedAt)}`;
 
-            // Đổi mode từ 'window' sang 'fullscreen' để fill đầy #chat-container
             createChat({
                 webhookUrl: chatUrl,
                 target: '#chat-container', 
                 mode: 'fullscreen', 
-                showWelcomeScreen: true,
+                showWelcomeScreen: false,
                 initialMessages: [], 
-                style: { width: '100%', height: '100%', position: 'relative' }
+                style: { width: '100%', height: '100%', position: 'relative' },
+                i18n: {
+                    en: {
+                        title: '', 
+                        subtitle: '', 
+                        getStarted: 'Bắt đầu',
+                        inputPlaceholder: 'Nhập câu hỏi của bạn...', 
+                    },
+                    vn: {
+                        title: '', 
+                        subtitle: '',
+                        getStarted: 'Bắt đầu',
+                        inputPlaceholder: 'Nhập câu hỏi của bạn...',
+                    }
+                }
             });
         }
     </script>
