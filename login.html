@@ -9,7 +9,7 @@
     <link rel="icon" href="https://a2dsolutions.pl/wp-content/uploads/2022/11/cropped-Logo-1-192x192.png" sizes="192x192">
     <link rel="apple-touch-icon" href="https://a2dsolutions.pl/wp-content/uploads/2022/11/cropped-Logo-1-180x180.png">
     
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Oswald:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/@n8n/chat@1.1.1/dist/style.css" rel="stylesheet" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 
@@ -22,10 +22,15 @@
             --border-color: #2d3748;
             --bg-light: #f8fafc;
             --text-dark: #0f172a;
+
+            /* Override biến màu gốc của thư viện n8n chat */
+            --chat--color-primary: #0b85d1;
+            --chat--message--user--background: #0b85d1;
+            --chat--message--user--color: #ffffff;
         }
 
         /* Base & Scrollbar */
-        body { font-family: 'Inter', sans-serif; background-color: var(--bg-light); color: var(--text-dark); margin: 0; display: flex; flex-direction: column; min-height: 100vh; overflow-x: hidden; line-height: 1.6; }
+        body { font-family: 'Poppins', sans-serif; background-color: var(--bg-light); color: var(--text-dark); margin: 0; display: flex; flex-direction: column; min-height: 100vh; overflow-x: hidden; line-height: 1.6; }
         ::-webkit-scrollbar { width: 8px; }
         ::-webkit-scrollbar-track { background: #f1f1f1; }
         ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 4px; }
@@ -37,11 +42,13 @@
         .site-logo:hover { opacity: 0.9; transform: scale(1.02); }
         .site-logo img { height: 45px; width: auto; display: block; }
         
+        .mobile-menu-btn { display: none; background: transparent; border: none; color: white; font-size: 24px; cursor: pointer; padding: 5px; }
+
         /* BUTTONS */
         .header-actions { display: flex; align-items: center; gap: 15px; }
-        .btn-header { background-color: transparent; color: white; border: 1px solid rgba(255,255,255,0.3); padding: 8px 18px; font-size: 13px; font-weight: 600; text-transform: uppercase; cursor: pointer; transition: all 0.3s ease; border-radius: 6px; letter-spacing: 0.5px; }
+        .btn-header { background-color: transparent; color: white; border: 1px solid rgba(255,255,255,0.3); padding: 8px 18px; font-size: 13px; font-weight: 600; text-transform: uppercase; cursor: pointer; transition: all 0.3s ease; border-radius: 6px; letter-spacing: 0.5px; font-family: 'Poppins', sans-serif; }
         .btn-header:hover { background-color: rgba(255,255,255,0.1); border-color: white; transform: translateY(-1px); }
-        .btn-contact { background-color: var(--accent-blue); color: white; border: 1px solid var(--accent-blue); padding: 10px 24px; font-size: 13px; font-weight: 600; text-transform: uppercase; cursor: pointer; transition: all 0.3s ease; border-radius: 6px; letter-spacing: 0.5px; display: flex; align-items: center; box-shadow: 0 4px 10px rgba(59, 156, 212, 0.3); }
+        .btn-contact { background-color: var(--accent-blue); color: white; border: 1px solid var(--accent-blue); padding: 10px 24px; font-size: 13px; font-weight: 600; text-transform: uppercase; cursor: pointer; transition: all 0.3s ease; border-radius: 6px; letter-spacing: 0.5px; display: flex; align-items: center; box-shadow: 0 4px 10px rgba(59, 156, 212, 0.3); font-family: 'Poppins', sans-serif;}
         .btn-contact:hover { background-color: var(--accent-blue-hover); border-color: var(--accent-blue-hover); transform: translateY(-1px); box-shadow: 0 6px 15px rgba(59, 156, 212, 0.4); }
 
         /* USER MENU */
@@ -49,7 +56,7 @@
         .user-dropdown { position: absolute; top: 50px; right: 0; width: 220px; background: white; border-radius: 8px; box-shadow: 0 10px 30px rgba(16, 33, 54, 0.15); display: none; overflow: hidden; z-index: 2000; border: 1px solid #e2e8f0; transform: translateY(10px); opacity: 0; transition: all 0.3s ease; }
         .user-dropdown.active { display: block; transform: translateY(0); opacity: 1; animation: slideDown 0.2s ease forwards; }
         @keyframes slideDown { from { opacity: 0; transform: translateY(-10px); } to { opacity: 1; transform: translateY(0); } }
-        .menu-item { padding: 14px 20px; display: flex; align-items: center; color: var(--text-dark); cursor: pointer; font-size: 14px; font-weight: 500; transition: background 0.2s ease; }
+        .menu-item { padding: 14px 20px; display: flex; align-items: center; color: var(--text-dark); cursor: pointer; font-size: 14px; font-weight: 500; transition: background 0.2s ease; font-family: 'Poppins', sans-serif;}
         .menu-item i { margin-right: 12px; width: 16px; text-align: center; color: var(--accent-blue); }
         .menu-item:hover { background: #f1f5f9; }
         .menu-item.danger { color: #ef4444; border-top: 1px solid #e2e8f0; }
@@ -58,23 +65,44 @@
         /* MAIN CONTENT */
         .app-main { flex: 1; display: flex; justify-content: center; align-items: center; padding: 120px 20px 50px; position: relative; }
         
-        /* AUTH CARD (Login) */
+        /* AUTH CARD (Login/Signup/Forgot) */
         .auth-card { background: #ffffff; padding: 45px 40px; border-radius: 12px; box-shadow: 0 20px 40px rgba(16, 33, 54, 0.1); width: 100%; max-width: 440px; border-top: 5px solid var(--accent-blue); border: 1px solid #e2e8f0; }
         .hidden { display: none !important; }
         .auth-header-form { text-align: center; margin-bottom: 35px; }
-        .auth-header-form h2 { margin: 0; color: var(--primary-navy); font-family: 'Oswald', sans-serif; font-size: 30px; text-transform: uppercase; letter-spacing: 1px; }
+        .auth-header-form h2 { margin: 0; color: var(--primary-navy); font-family: 'Poppins', sans-serif; font-size: 30px; text-transform: uppercase; letter-spacing: 1px; font-weight: 700;}
         .auth-header-form p { color: #64748b; font-size: 14px; margin-top: 10px; font-weight: 500; }
         
-        #chat-container { width: 100%; max-width: 1000px; height: 75vh; min-height: 600px; background: #ffffff; border-radius: 16px; box-shadow: 0 25px 50px -12px rgba(16, 33, 54, 0.2); overflow: hidden; display: none; position: relative; border: 1px solid #e2e8f0; }
+        /* DASHBOARD */
+        #dashboard-container { width: 100%; max-width: 1300px; height: 75vh; min-height: 600px; display: none; gap: 25px; }
+        
+        /* Chat Container */
+        #chat-container { flex: 2; height: 100%; background: #ffffff; border-radius: 16px; box-shadow: 0 25px 50px -12px rgba(16, 33, 54, 0.2); overflow: hidden; position: relative; border: 1px solid #e2e8f0; }
+        
+        /* Options Panel */
+        #options-panel { flex: 1; display: flex; flex-direction: column; gap: 15px; height: 100%; }
+        
+        .option-tile { flex: 1; background: #ffffff; border-radius: 16px; border: 1px solid #e2e8f0; box-shadow: 0 10px 30px -10px rgba(16, 33, 54, 0.1); display: flex; flex-direction: column; align-items: center; justify-content: center; transition: all 0.3s ease; position: relative; text-align: center; overflow: hidden; }
+        .option-tile i { font-size: 38px; color: var(--accent-blue); margin-bottom: 12px; transition: transform 0.3s ease; }
+        .option-tile span { font-family: 'Poppins', sans-serif; font-weight: 600; font-size: 16px; color: var(--primary-navy); letter-spacing: 0.5px; text-transform: uppercase; }
+        
+        .option-tile.active { cursor: pointer; }
+        .option-tile.active:hover { border-color: var(--accent-blue); transform: translateY(-3px); box-shadow: 0 15px 35px -10px rgba(59, 156, 212, 0.25); }
+        .option-tile.active:hover i { transform: scale(1.1); }
+        
+        .option-tile.disabled { opacity: 0.6; cursor: not-allowed; background: #f8fafc; }
+        .option-tile.disabled i { color: #94a3b8; }
+        .option-tile.disabled span { color: #64748b; }
+        
+        .badge-soon { position: absolute; top: 15px; right: 15px; background: #e2e8f0; color: #475569; font-size: 11px; font-weight: 600; padding: 4px 10px; border-radius: 20px; letter-spacing: 0.5px; text-transform: uppercase; }
 
         /* FORM INPUTS */
         .input-group { margin-bottom: 20px; text-align: left; }
         .input-group label { display: block; font-size: 13px; font-weight: 600; margin-bottom: 8px; color: var(--primary-navy); text-transform: uppercase; letter-spacing: 0.5px; }
-        input, textarea { width: 100%; padding: 14px 16px; border: 1px solid #cbd5e1; border-radius: 8px; box-sizing: border-box; outline: none; transition: all 0.3s ease; font-family: 'Inter', sans-serif; color: var(--text-dark); background-color: #f8fafc; font-size: 14px; }
+        input, textarea { width: 100%; padding: 14px 16px; border: 1px solid #cbd5e1; border-radius: 8px; box-sizing: border-box; outline: none; transition: all 0.3s ease; font-family: 'Poppins', sans-serif; color: var(--text-dark); background-color: #f8fafc; font-size: 14px; }
         input:focus, textarea:focus { border-color: var(--accent-blue); background-color: #ffffff; box-shadow: 0 0 0 4px rgba(59, 156, 212, 0.15); }
         textarea { resize: vertical; min-height: 120px; }
         
-        .btn-submit { width: 100%; padding: 15px; background: var(--accent-blue); color: white; border: none; border-radius: 8px; font-weight: 600; font-size: 15px; cursor: pointer; transition: all 0.3s ease; text-transform: uppercase; letter-spacing: 1px; box-shadow: 0 4px 12px rgba(59, 156, 212, 0.2); }
+        .btn-submit { width: 100%; padding: 15px; background: var(--accent-blue); color: white; border: none; border-radius: 8px; font-weight: 600; font-size: 15px; cursor: pointer; transition: all 0.3s ease; text-transform: uppercase; letter-spacing: 1px; box-shadow: 0 4px 12px rgba(59, 156, 212, 0.2); font-family: 'Poppins', sans-serif;}
         .btn-submit:hover { background: var(--accent-blue-hover); box-shadow: 0 6px 16px rgba(59, 156, 212, 0.35); transform: translateY(-2px); }
         .btn-submit:disabled { background: #94a3b8; cursor: not-allowed; transform: none; box-shadow: none; }
         
@@ -82,6 +110,10 @@
         .switch-mode span { color: var(--accent-blue); font-weight: 600; transition: color 0.3s; }
         .switch-mode:hover span { color: var(--primary-navy); text-decoration: underline; }
         
+        .forgot-link { text-align: right; margin-top: -10px; margin-bottom: 20px; }
+        .forgot-link a { font-size: 13px; color: var(--accent-blue); text-decoration: none; font-weight: 600; transition: color 0.3s; }
+        .forgot-link a:hover { color: var(--primary-navy); text-decoration: underline; }
+
         .error { color: #dc2626; text-align: center; margin-top: 15px; font-size: 13px; background: #fef2f2; padding: 12px; border-radius: 6px; border: 1px solid #fecaca; font-weight: 500;}
         .success { color: #059669; text-align: center; margin-top: 15px; font-size: 13px; background: #ecfdf5; padding: 12px; border-radius: 6px; border: 1px solid #a7f3d0; font-weight: 500;}
         
@@ -101,20 +133,47 @@
         .modal-content { background: #fff; padding: 40px; border-radius: 16px; width: 100%; max-width: 500px; position: relative; box-shadow: 0 25px 50px rgba(0, 0, 0, 0.25); text-align: center; transform: translateY(20px); animation: slideUpModal 0.3s ease forwards; border: 1px solid #e2e8f0; }
         .modal-close { position: absolute; top: 15px; right: 20px; font-size: 28px; cursor: pointer; color: #94a3b8; transition: color 0.3s ease; line-height: 1; }
         .modal-close:hover { color: #dc2626; }
-        .modal-title { margin-top: 0; color: var(--primary-navy); font-family: 'Oswald', sans-serif; text-transform: uppercase; font-size: 26px; border-bottom: 2px solid #f1f5f9; padding-bottom: 15px; margin-bottom: 25px; letter-spacing: 0.5px; }
+        .modal-title { margin-top: 0; color: var(--primary-navy); font-family: 'Poppins', sans-serif; text-transform: uppercase; font-size: 26px; border-bottom: 2px solid #f1f5f9; padding-bottom: 15px; margin-bottom: 25px; letter-spacing: 0.5px; font-weight: 700;}
         
         @keyframes fadeInModal { from { opacity: 0; } to { opacity: 1; } }
         @keyframes slideUpModal { from { transform: translateY(20px); } to { transform: translateY(0); } }
 
-        /* RESPONSIVE */
+        /* RESPONSIVE MENU MOBILE */
         @media (max-width: 768px) { 
-            .app-header { padding: 15px 20px; flex-wrap: wrap; justify-content: center; gap: 15px; } 
-            .header-actions { display: flex; gap: 10px; width: 100%; justify-content: center; flex-wrap: wrap;}
+            .app-header { padding: 12px 15px; flex-wrap: nowrap; justify-content: space-between; } 
+            .site-logo { max-width: 75%; overflow: hidden; }
+            .site-logo img { height: auto; max-height: 32px; max-width: 100%; object-fit: contain; }
+            .mobile-menu-btn { display: block; margin-left: 10px; }
+            .header-actions { display: none; position: absolute; top: 100%; left: 0; width: 100%; background-color: var(--primary-navy); flex-direction: column; padding: 15px 20px; box-sizing: border-box; box-shadow: 0 10px 20px rgba(0,0,0,0.2); border-top: 1px solid rgba(255,255,255,0.1); z-index: 1000;}
+            .header-actions.show { display: flex; gap: 15px; }
+            .btn-header, .btn-contact { width: 100%; justify-content: center; }
+            .user-menu-wrapper { width: 100%; }
+            .user-dropdown { position: static; width: 100%; transform: none; margin-top: 10px; box-sizing: border-box; }
             .site-footer { padding: 20px; flex-direction: column; gap: 15px; text-align: center; } 
             .site-footer a { margin: 0 10px; }
-            .auth-card { padding: 30px 20px; }
-            .app-main { padding-top: 160px; }
+            .auth-card { padding: 30px 20px; margin: auto; }
+            
+            .app-main { padding-top: 90px; padding-bottom: 20px; display: flex; flex-direction: column; height: auto; min-height: calc(100vh - 120px); }
+            #dashboard-container { flex-direction: column; height: 100%; flex: 1; gap: 10px;}
+            
+            #options-panel { flex: 0 0 auto; flex-direction: row; flex-wrap: nowrap; overflow-x: auto; overflow-y: hidden; padding-bottom: 5px; -webkit-overflow-scrolling: touch; scroll-snap-type: x mandatory; order: -1; }
+            #options-panel::-webkit-scrollbar { display: none; }
+            .option-tile { flex: 0 0 140px; height: 100px; padding: 15px 10px; scroll-snap-align: start; margin-right: 15px; justify-content: center; }
+            .option-tile:last-child { margin-right: 0; }
+            .option-tile i { font-size: 26px; margin-bottom: 6px; }
+            .option-tile span { font-size: 13px; }
+            .badge-soon { top: 6px; right: 6px; font-size: 9px; padding: 3px 6px; }
+            
+            #chat-container { flex: 1 1 auto; min-height: 60vh; height: auto; }
         }
+
+        .chat-message.chat-message-from-user,
+        .chat-message.chat-message-from-user .chat-message-markdown { border-radius: 32px 6px 32px 32px !important; }
+        .chat-message.chat-message-from-bot,
+        .chat-message.chat-message-from-bot .chat-message-markdown { border-radius: 6px 32px 32px 32px !important; }
+        .chat-message.chat-message-from-user::before, .chat-message.chat-message-from-user::after,
+        .chat-message.chat-message-from-bot::before, .chat-message.chat-message-from-bot::after { display: none !important; }
+        .chat-message.chat-message-from-user, .chat-message.chat-message-from-bot { overflow: hidden !important; padding: 10px 16px !important; }
     </style>
 </head>
 <body>
@@ -124,7 +183,11 @@
             <img src="https://a2dsolutions.pl/wp-content/uploads/2022/11/Logo_horz_black.png" alt="A2D Solutions Logo">
         </a>
         
-        <div class="header-actions">
+        <button class="mobile-menu-btn" onclick="toggleMobileMenu()">
+            <i class="fas fa-bars"></i>
+        </button>
+
+        <div class="header-actions" id="headerActions">
             <button class="btn-header" onclick="openModal('guideModal')">Hướng dẫn</button>
             <button class="btn-header" onclick="openModal('contactModal')">Liên hệ</button>
 
@@ -148,27 +211,56 @@
     </header>
 
     <main class="app-main">
-        <div id="chat-container"></div>
+        <div id="dashboard-container" style="display: none;">
+            <div id="chat-container"></div>
+            
+            <div id="options-panel">
+                <div class="option-tile active" onclick="alert('Đang trong mục Tư vấn Cư trú!')">
+                    <i class="fas fa-id-card"></i>
+                    <span>CƯ TRÚ</span>
+                </div>
+                <div class="option-tile disabled">
+                    <div class="badge-soon">Coming soon</div>
+                    <i class="fas fa-briefcase"></i>
+                    <span>LAO ĐỘNG</span>
+                </div>
+                <div class="option-tile disabled">
+                    <div class="badge-soon">Coming soon</div>
+                    <i class="fas fa-passport"></i>
+                    <span>VISA</span>
+                </div>
+                <div class="option-tile disabled">
+                    <div class="badge-soon">Coming soon</div>
+                    <i class="fas fa-shield-alt"></i>
+                    <span>BẢO HIỂM (ZUS)</span>
+                </div>
+            </div>
+        </div>
         
         <div class="auth-card" id="authCard">
             <div class="auth-header-form">
                 <h2 id="formTitle">ĐĂNG NHẬP TRỢ LÝ AI</h2>
-                <p>Chào mừng đến với Cổng thông tin khách hàng A2D Solutions</p>
+                <p id="formDesc">Chào mừng đến với dự án cộng đồng của A2D Solutions</p>
             </div>
             <form id="authForm" onsubmit="handleSubmit(event)">
-                <div id="credentialsGroup">
-                    <div class="input-group">
-                        <label>Địa chỉ Email</label>
-                        <input type="email" id="email" placeholder="vidu@gmail.com" required>
-                    </div>
-                    <div class="input-group">
-                        <label>Mật khẩu</label>
-                        <input type="password" id="password" placeholder="••••••••" required>
-                    </div>
-                    <div class="input-group hidden" id="confirmPassGroup">
-                        <label>Xác nhận mật khẩu</label>
-                        <input type="password" id="confirmPassword" placeholder="••••••••">
-                    </div>
+                
+                <div class="input-group" id="groupEmail">
+                    <label>Địa chỉ Email</label>
+                    <input type="email" id="email" placeholder="vidu@gmail.com" required>
+                </div>
+
+                <div class="input-group" id="groupPassword">
+                    <label id="labelPassword">Mật khẩu</label>
+                    <input type="password" id="password" placeholder="••••••••" required>
+                </div>
+
+                <div class="forgot-link" id="groupForgotLink">
+                    <a href="#" onclick="changeAuthMode('forgot_request'); return false;">Quên mật khẩu?</a>
+                </div>
+
+                <div class="input-group hidden" id="groupConfirmPassword">
+                    <label id="labelConfirmPassword">Xác nhận mật khẩu</label>
+                    <input type="password" id="confirmPassword" placeholder="••••••••">
                 </div>
                 
                 <div id="gdprGroup" class="gdpr-checkbox hidden">
@@ -186,9 +278,9 @@
                 <div id="message"></div>
                 <button type="submit" class="btn-submit" id="submitBtn" style="margin-top: 10px;">Đăng nhập</button>
             </form>
-            <div class="switch-mode" id="switchModeGroup" onclick="toggleMode()">
-                <span id="switchSpan1">Khách hàng mới?</span> <span id="switchSpan2"> Bấm vào đây để đăng ký</span>
-            </div>
+            
+            <div class="switch-mode" id="switchModeGroup">
+                </div>
         </div>
     </main>
 
@@ -201,12 +293,24 @@
     </footer>
 
     <div class="modal-overlay" id="guideModal">
-        <div class="modal-content">
+        <div class="modal-content" style="max-height: 90vh; overflow-y: auto;">
             <div class="modal-close" onclick="closeModal('guideModal')">&times;</div>
             <h2 class="modal-title">Hướng dẫn sử dụng</h2>
-            <p style="color: #475569; line-height: 1.6; text-align: left;">
-                (Đây là nội dung nháp, sếp sẽ đưa nội dung thật sau nha bro!)
-            </p>
+            <div style="color: #475569; line-height: 1.6; text-align: left; font-size: 15px;">
+                <h3 style="color: var(--primary-navy); margin-bottom: 8px; font-size: 16px;"><i class="fas fa-user-plus" style="margin-right: 8px; color: var(--accent-blue);"></i>1. Tạo tài khoản mới</h3>
+                <ul style="margin-top: 0; padding-left: 20px; margin-bottom: 20px;">
+                    <li>Chọn <strong>"Khách hàng mới?"</strong>.</li>
+                    <li>Nhập đầy đủ thông tin theo yêu cầu.</li>
+                    <li>Kiểm tra email đã đăng ký và lấy mã xác nhận (code).</li>
+                    <li>Nhập mã xác nhận để hoàn tất quá trình đăng ký.</li>
+                </ul>
+
+                <h3 style="color: var(--primary-navy); margin-bottom: 8px; font-size: 16px;"><i class="fas fa-sign-in-alt" style="margin-right: 8px; color: var(--accent-blue);"></i>2. Đăng nhập / Quên mật khẩu</h3>
+                <ul style="margin-top: 0; padding-left: 20px; margin-bottom: 20px;">
+                    <li>Nhập email và mật khẩu đã đăng ký.</li>
+                    <li>Nếu quên mật khẩu, bấm <strong>"Quên mật khẩu?"</strong> và làm theo hướng dẫn để nhận mã OTP khôi phục.</li>
+                </ul>
+            </div>
         </div>
     </div>
 
@@ -232,56 +336,124 @@
     <script type="module">
         import { createChat } from 'https://cdn.jsdelivr.net/npm/@n8n/chat@1.1.1/dist/chat.bundle.es.js';
 
+        // ================= LINK WEBHOOK CỦA BẠN =================
         const URL_LOGIN   = 'https://n8n.a2dzespol.pl/webhook/3349af0f-ead6-4ba5-a535-f9c993b8fe19'; 
         const URL_SIGNUP  = 'https://n8n.a2dzespol.pl/webhook/f8f58561-ed9e-4a49-b273-7776ba9073a3'; 
         const URL_VERIFY  = 'https://n8n.a2dzespol.pl/webhook/e05cd05b-f854-48ca-bc15-ca75ca32edf9'; 
+        
+        // THAY 2 LINK DƯỚI ĐÂY BẰNG WEBHOOK QUÊN MẬT KHẨU CỦA BẠN
+        const URL_FORGOT_PASSWORD_REQUEST = 'https://n8n.a2dzespol.pl/webhook/6695aa05-2a9c-4abb-8c9b-28188af236ee'; 
+        const URL_FORGOT_PASSWORD_RESET   = 'https://n8n.a2dzespol.pl/webhook/WEBHOOK_QUEN_MAT_KHAU_2'; 
+
         const URL_CHAT    = 'https://n8n.a2dzespol.pl/webhook/d8451693-0079-4da7-b3a3-ec1561bd2da3';
         const URL_DELETE  = 'https://n8n.a2dzespol.pl/webhook/7e75278a-2bc2-4832-b601-39085570f7aa';
         const URL_CONTACT_WEBHOOK = 'https://n8n.a2dzespol.pl/webhook/366a0816-3157-4425-9bb5-5aa258c94161';
 
-        let isLoginMode = true;
-        let isVerifyStep = false;
-        
+        // State quản lý hiển thị form (login, signup, verify_signup, forgot_request, forgot_reset)
+        window.authMode = 'login'; 
         window.currentAppLanguage = 'vn';
 
+        // Header actions
         window.toggleSettings = function() { document.getElementById('settingsDropdown').classList.toggle('active'); }
-        
-        document.addEventListener('click', function(event) {
-            if (!document.getElementById('userSettings').contains(event.target)) { document.getElementById('settingsDropdown').classList.remove('active'); }
-        });
-
+        window.toggleMobileMenu = function() { document.getElementById('headerActions').classList.toggle('show'); }
+        document.addEventListener('click', function(event) { if (!document.getElementById('userSettings').contains(event.target)) { document.getElementById('settingsDropdown').classList.remove('active'); } });
         window.openModal = function(id) { document.getElementById(id).classList.add('active'); }
         window.closeModal = function(id) { document.getElementById(id).classList.remove('active'); }
 
-        window.toggleMode = function() {
-            isLoginMode = !isLoginMode;
+        // Hàm thay đổi giao diện form
+        window.changeAuthMode = function(mode) {
+            window.authMode = mode;
             
-            document.getElementById('formTitle').innerText = isLoginMode ? "ĐĂNG NHẬP TRỢ LÝ AI" : "TẠO TÀI KHOẢN";
-            document.getElementById('submitBtn').innerText = isLoginMode ? "Đăng nhập" : "Đăng ký ngay";
-            document.getElementById('switchSpan1').innerText = isLoginMode ? "Khách hàng mới?" : "Đã có tài khoản?";
-            document.getElementById('switchSpan2').innerText = isLoginMode ? " Bấm vào đây để đăng ký" : " Đăng nhập tại đây";
-            
-            const confirmGroup = document.getElementById('confirmPassGroup');
+            const formTitle = document.getElementById('formTitle');
+            const formDesc = document.getElementById('formDesc');
+            const groupEmail = document.getElementById('groupEmail');
+            const groupPassword = document.getElementById('groupPassword');
+            const groupConfirmPassword = document.getElementById('groupConfirmPassword');
+            const labelPassword = document.getElementById('labelPassword');
+            const labelConfirmPassword = document.getElementById('labelConfirmPassword');
+            const groupForgotLink = document.getElementById('groupForgotLink');
             const gdprGroup = document.getElementById('gdprGroup');
+            const otpGroup = document.getElementById('otpGroup');
+            const submitBtn = document.getElementById('submitBtn');
+            const switchModeGroup = document.getElementById('switchModeGroup');
+            const msg = document.getElementById('message');
+            const emailInput = document.getElementById('email');
             
-            if (isLoginMode) {
-                confirmGroup.classList.add('hidden');
-                gdprGroup.classList.add('hidden');
-                document.getElementById('confirmPassword').required = false;
-                document.getElementById('gdprConsent').required = false;
-            } else {
-                confirmGroup.classList.remove('hidden');
-                gdprGroup.classList.remove('hidden');
-                document.getElementById('confirmPassword').required = true;
-                document.getElementById('gdprConsent').required = true;
+            // Xóa thông báo cũ và reset required
+            msg.innerText = '';
+            msg.className = '';
+            document.getElementById('email').required = false;
+            document.getElementById('password').required = false;
+            document.getElementById('confirmPassword').required = false;
+            document.getElementById('gdprConsent').required = false;
+            document.getElementById('otpInput').required = false;
+
+            if (mode === 'login') {
+                formTitle.innerText = "ĐĂNG NHẬP TRỢ LÝ AI";
+                formDesc.innerText = "Chào mừng đến với dự án cộng đồng của A2D Solutions";
+                groupEmail.classList.remove('hidden'); groupPassword.classList.remove('hidden'); groupForgotLink.classList.remove('hidden');
+                groupConfirmPassword.classList.add('hidden'); gdprGroup.classList.add('hidden'); otpGroup.classList.add('hidden');
+                
+                document.getElementById('email').required = true;
+                document.getElementById('password').required = true;
+                labelPassword.innerText = "Mật khẩu";
+                submitBtn.innerText = "Đăng nhập";
+                switchModeGroup.innerHTML = '<span onclick="changeAuthMode(\'signup\')">Khách hàng mới? <span>Bấm vào đây để đăng ký</span></span>';
+            } 
+            else if (mode === 'signup') {
+                formTitle.innerText = "TẠO TÀI KHOẢN";
+                formDesc.innerText = "Tham gia dự án cộng đồng của A2D Solutions";
+                groupEmail.classList.remove('hidden'); groupPassword.classList.remove('hidden'); groupConfirmPassword.classList.remove('hidden'); gdprGroup.classList.remove('hidden');
+                groupForgotLink.classList.add('hidden'); otpGroup.classList.add('hidden');
+                
+                document.getElementById('email').required = true; document.getElementById('password').required = true; document.getElementById('confirmPassword').required = true; document.getElementById('gdprConsent').required = true;
+                labelPassword.innerText = "Mật khẩu"; labelConfirmPassword.innerText = "Xác nhận mật khẩu";
+                submitBtn.innerText = "Đăng ký ngay";
+                switchModeGroup.innerHTML = '<span onclick="changeAuthMode(\'login\')">Đã có tài khoản? <span>Đăng nhập tại đây</span></span>';
             }
-            document.getElementById('message').innerText = '';
+            else if (mode === 'verify_signup') {
+                formTitle.innerText = "XÁC THỰC EMAIL";
+                formDesc.innerText = "Nhập mã OTP 6 số đã được gửi tới email của bạn";
+                otpGroup.classList.remove('hidden');
+                groupEmail.classList.add('hidden'); groupPassword.classList.add('hidden'); groupConfirmPassword.classList.add('hidden'); groupForgotLink.classList.add('hidden'); gdprGroup.classList.add('hidden');
+                
+                document.getElementById('otpInput').required = true;
+                submitBtn.innerText = "Xác thực OTP";
+                switchModeGroup.innerHTML = '<span onclick="changeAuthMode(\'login\')">Quay lại <span>Đăng nhập</span></span>';
+            }
+            else if (mode === 'forgot_request') {
+                formTitle.innerText = "QUÊN MẬT KHẨU";
+                formDesc.innerText = "Nhập email của bạn để nhận mã khôi phục";
+                groupEmail.classList.remove('hidden');
+                groupPassword.classList.add('hidden'); groupConfirmPassword.classList.add('hidden'); groupForgotLink.classList.add('hidden'); gdprGroup.classList.add('hidden'); otpGroup.classList.add('hidden');
+                
+                document.getElementById('email').required = true;
+                submitBtn.innerText = "Gửi mã khôi phục";
+                switchModeGroup.innerHTML = '<span onclick="changeAuthMode(\'login\')">Quay lại <span>Đăng nhập</span></span>';
+            }
+            else if (mode === 'forgot_reset') {
+                formTitle.innerText = "ĐẶT LẠI MẬT KHẨU";
+                formDesc.innerText = "Nhập mã OTP từ email và mật khẩu mới của bạn";
+                otpGroup.classList.remove('hidden'); groupPassword.classList.remove('hidden'); groupConfirmPassword.classList.remove('hidden');
+                groupEmail.classList.add('hidden'); groupForgotLink.classList.add('hidden'); gdprGroup.classList.add('hidden');
+                
+                document.getElementById('otpInput').required = true; document.getElementById('password').required = true; document.getElementById('confirmPassword').required = true;
+                labelPassword.innerText = "Mật khẩu mới"; labelConfirmPassword.innerText = "Xác nhận mật khẩu mới";
+                submitBtn.innerText = "Đổi mật khẩu";
+                switchModeGroup.innerHTML = '<span onclick="changeAuthMode(\'login\')">Hủy và quay lại <span>Đăng nhập</span></span>';
+            }
         }
 
+        // Khởi tạo giao diện ban đầu
+        window.changeAuthMode('login');
+
+        // Hàm xử lý Submit Form chính
         window.handleSubmit = async function(e) {
             e.preventDefault();
             const email = document.getElementById('email').value.trim();
             const password = document.getElementById('password').value;
+            const confirmPassword = document.getElementById('confirmPassword').value;
+            const otp = document.getElementById('otpInput').value.trim();
             const msg = document.getElementById('message');
             const btn = document.getElementById('submitBtn');
 
@@ -290,109 +462,102 @@
             btn.disabled = true;
 
             try {
-                if (isVerifyStep) {
-                    const otp = document.getElementById('otpInput').value.trim();
-                    const res = await fetch(URL_VERIFY, {
-                        method: 'POST',
-                        headers: {'Content-Type': 'application/json'},
-                        body: JSON.stringify({email, otp}) 
+                if (window.authMode === 'login') {
+                    // Xử lý Đăng nhập
+                    const res = await fetch(URL_LOGIN, {
+                        method: 'POST', headers: {'Content-Type': 'application/json'}, body: JSON.stringify({email, password}) 
                     });
                     const data = await res.json();
-                    
                     if (data.status === 'success') {
-                        const finalThreadId = data.Thread_ID || data.threadId;
-                        const finalCreatedAt = data.Created_at || data.createdAt;
-                        loginSuccess(email, finalThreadId, finalCreatedAt);
-                    } else throw new Error(data.message || "Mã OTP không hợp lệ!");
-                } else {
-                    if (!isLoginMode) {
-                        const confirm = document.getElementById('confirmPassword').value;
-                        if (password !== confirm) throw new Error("Mật khẩu không khớp!");
-                        if (!document.getElementById('gdprConsent').checked) throw new Error("Vui lòng đồng ý với Điều khoản!");
-                    }
-                    
-                    const url = isLoginMode ? URL_LOGIN : URL_SIGNUP;
-                    const res = await fetch(url, {
-                        method: 'POST',
-                        headers: {'Content-Type': 'application/json'},
-                        body: JSON.stringify({email, password}) 
+                        loginSuccess(email, data.Thread_ID || data.threadId, data.Created_at || data.createdAt);
+                    } else throw new Error(data.message || "Tài khoản hoặc mật khẩu không đúng.");
+                } 
+                else if (window.authMode === 'signup') {
+                    // Xử lý Đăng ký
+                    if (password !== confirmPassword) throw new Error("Mật khẩu không khớp!");
+                    const res = await fetch(URL_SIGNUP, {
+                        method: 'POST', headers: {'Content-Type': 'application/json'}, body: JSON.stringify({email, password}) 
                     });
                     const data = await res.json();
-
                     if (data.status === 'success') {
-                        const finalThreadId = data.Thread_ID || data.threadId;
-                        const finalCreatedAt = data.Created_at || data.createdAt;
-                        loginSuccess(email, finalThreadId, finalCreatedAt);
+                        loginSuccess(email, data.Thread_ID || data.threadId, data.Created_at || data.createdAt);
                     } else if (data.status === 'pending_verification') {
-                        isVerifyStep = true;
-                        document.getElementById('credentialsGroup').classList.add('hidden');
-                        document.getElementById('gdprGroup').classList.add('hidden');
-                        document.getElementById('confirmPassGroup').classList.add('hidden');
-                        document.getElementById('otpGroup').classList.remove('hidden');
-                        document.getElementById('switchModeGroup').classList.add('hidden');
-                        
-                        btn.innerText = "Xác thực OTP";
-                        btn.disabled = false;
-                        msg.className = "success";
-                        msg.innerText = "Đã gửi mã OTP!";
-                    } else {
-                        throw new Error(data.message || "Thất bại.");
-                    }
+                        window.changeAuthMode('verify_signup');
+                        document.getElementById('message').className = "success";
+                        document.getElementById('message').innerText = "Đã gửi mã OTP đăng ký đến email của bạn!";
+                    } else throw new Error(data.message || "Đăng ký thất bại.");
+                }
+                else if (window.authMode === 'verify_signup') {
+                    // Xác thực OTP đăng ký
+                    const res = await fetch(URL_VERIFY, {
+                        method: 'POST', headers: {'Content-Type': 'application/json'}, body: JSON.stringify({email, otp}) 
+                    });
+                    const data = await res.json();
+                    if (data.status === 'success') {
+                        loginSuccess(email, data.Thread_ID || data.threadId, data.Created_at || data.createdAt);
+                    } else throw new Error(data.message || "Mã OTP không hợp lệ!");
+                }
+                else if (window.authMode === 'forgot_request') {
+                    // Yêu cầu lấy mã Quên mật khẩu
+                    const res = await fetch(URL_FORGOT_PASSWORD_REQUEST, {
+                        method: 'POST', headers: {'Content-Type': 'application/json'}, body: JSON.stringify({email}) 
+                    });
+                    const data = await res.json();
+                    if (data.status === 'success') {
+                        window.changeAuthMode('forgot_reset');
+                        document.getElementById('message').className = "success";
+                        document.getElementById('message').innerText = "Mã khôi phục đã được gửi tới email của bạn!";
+                    } else throw new Error(data.message || "Email không tồn tại hoặc có lỗi xảy ra.");
+                }
+                else if (window.authMode === 'forgot_reset') {
+                    // Đổi mật khẩu mới
+                    if (password !== confirmPassword) throw new Error("Mật khẩu mới không khớp!");
+                    const res = await fetch(URL_FORGOT_PASSWORD_RESET, {
+                        method: 'POST', headers: {'Content-Type': 'application/json'}, body: JSON.stringify({email, otp, newPassword: password}) 
+                    });
+                    const data = await res.json();
+                    if (data.status === 'success') {
+                        alert("Đổi mật khẩu thành công! Vui lòng đăng nhập lại.");
+                        window.changeAuthMode('login');
+                    } else throw new Error(data.message || "Mã OTP sai hoặc đã hết hạn.");
                 }
             } catch (err) {
                 msg.className = "error";
                 msg.innerText = err.message;
+            } finally {
                 btn.disabled = false;
-                btn.innerText = isVerifyStep ? "Xác thực OTP" : (isLoginMode ? "Đăng nhập" : "Đăng ký ngay");
+                // Trả lại text button đúng với mode hiện tại
+                if (window.authMode === 'login') btn.innerText = "Đăng nhập";
+                else if (window.authMode === 'signup') btn.innerText = "Đăng ký ngay";
+                else if (window.authMode === 'verify_signup') btn.innerText = "Xác thực OTP";
+                else if (window.authMode === 'forgot_request') btn.innerText = "Gửi mã khôi phục";
+                else if (window.authMode === 'forgot_reset') btn.innerText = "Đổi mật khẩu";
             }
         }
 
-        window.handleContactSubmit = async function(e) {
+        window.handleContactSubmit = async function(e) { /* Giữ nguyên hàm liên hệ */
             e.preventDefault();
             const email = document.getElementById('contactEmail').value.trim();
             const message = document.getElementById('contactMessage').value.trim();
             const msgBox = document.getElementById('contactFormMessage');
             const btn = document.getElementById('contactSubmitBtn');
 
-            msgBox.innerText = '';
-            btn.innerText = "Đang gửi...";
-            btn.disabled = true;
-
+            msgBox.innerText = ''; btn.innerText = "Đang gửi..."; btn.disabled = true;
             try {
-                const res = await fetch(URL_CONTACT_WEBHOOK, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ email: email, message: message })
-                });
-
-                if (res.ok) {
-                    msgBox.className = "success";
-                    msgBox.innerText = "Gửi tin nhắn thành công!";
-                    document.getElementById('contactForm').reset();
-                } else {
-                    throw new Error("Gửi tin nhắn thất bại.");
-                }
-            } catch (error) {
-                msgBox.className = "error";
-                msgBox.innerText = "Đã xảy ra lỗi. Vui lòng thử lại.";
-            } finally {
-                btn.innerText = "Gửi tin nhắn";
-                btn.disabled = false;
-            }
+                const res = await fetch(URL_CONTACT_WEBHOOK, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ email: email, message: message }) });
+                if (res.ok) { msgBox.className = "success"; msgBox.innerText = "Gửi tin nhắn thành công!"; document.getElementById('contactForm').reset(); } 
+                else { throw new Error("Gửi tin nhắn thất bại."); }
+            } catch (error) { msgBox.className = "error"; msgBox.innerText = "Đã xảy ra lỗi. Vui lòng thử lại."; } 
+            finally { btn.innerText = "Gửi tin nhắn"; btn.disabled = false; }
         }
 
         function loginSuccess(email, Thread_ID, Created_at) {
-            window.userEmail = email;
-            window.userThread_ID = Thread_ID; 
-            window.userCreated_at = Created_at; 
-
+            window.userEmail = email; window.userThread_ID = Thread_ID; window.userCreated_at = Created_at; 
             document.getElementById('authCard').classList.add('hidden');
-            const chatContainer = document.getElementById('chat-container');
-            chatContainer.style.display = 'block'; 
-
+            const dashboardContainer = document.getElementById('dashboard-container');
+            dashboardContainer.style.display = 'flex'; 
             document.getElementById('userSettings').style.display = 'inline-block';
             document.getElementById('userEmailDisplay').innerText = email;
-
             initChatbot(email, Thread_ID, Created_at);
         }
 
@@ -406,33 +571,13 @@
 
         function initChatbot(email, Thread_ID, Created_at) {
             document.getElementById('chat-container').innerHTML = '';
-            
-            const safeThreadID = Thread_ID ? Thread_ID : "";
-            const safeCreatedAt = Created_at ? Created_at : "";
-            
+            const safeThreadID = Thread_ID ? Thread_ID : ""; const safeCreatedAt = Created_at ? Created_at : "";
             let chatUrl = `${URL_CHAT}?userEmail=${encodeURIComponent(email)}&lang=${window.currentAppLanguage}&Thread_ID=${encodeURIComponent(safeThreadID)}&Created_at=${encodeURIComponent(safeCreatedAt)}`;
 
             createChat({
-                webhookUrl: chatUrl,
-                target: '#chat-container', 
-                mode: 'fullscreen', 
-                showWelcomeScreen: false,
-                initialMessages: [], 
+                webhookUrl: chatUrl, target: '#chat-container', mode: 'fullscreen', showWelcomeScreen: false, initialMessages: [], 
                 style: { width: '100%', height: '100%', position: 'relative' },
-                i18n: {
-                    en: {
-                        title: '', 
-                        subtitle: '', 
-                        getStarted: 'Bắt đầu',
-                        inputPlaceholder: 'Nhập câu hỏi của bạn...', 
-                    },
-                    vn: {
-                        title: '', 
-                        subtitle: '',
-                        getStarted: 'Bắt đầu',
-                        inputPlaceholder: 'Nhập câu hỏi của bạn...',
-                    }
-                }
+                i18n: { en: { title: 'Kết nối – Chia sẻ – Hỗ trợ Cộng đồng', subtitle: 'Nền tảng chatbot phi lợi nhuận giúp tư vấn thông tin về cư trú, pháp lý và giấy tờ tại Ba Lan, vì sự ổn định và quyền lợi của người Việt.', getStarted: 'Bắt đầu', inputPlaceholder: 'Nhập câu hỏi của bạn...', } }
             });
         }
     </script>
