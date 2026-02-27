@@ -13,6 +13,8 @@
     <link href="https://cdn.jsdelivr.net/npm/@n8n/chat@1.1.1/dist/style.css" rel="stylesheet" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 
+    <script src="https://accounts.google.com/gsi/client" async defer></script>
+
     <style>
         :root {
             --primary-navy: #102136;       
@@ -440,6 +442,11 @@
     <script type="module">
         import { createChat } from 'https://cdn.jsdelivr.net/npm/@n8n/chat@1.1.1/dist/chat.bundle.es.js';
 
+        // ========================================================
+        // 1. CHÚ Ý: THAY ĐỊA CHỈ WEBHOOK DƯỚI ĐÂY (NẾU CÓ)
+        // ========================================================
+        const URL_GOOGLE_LOGIN = 'https://n8n.a2dzespol.pl/webhook/THAY-ID-WEBHOOK-MOI-CHO-GOOGLE-LOGIN'; // Xử lý đăng nhập Google
+        
         const URL_LOGIN   = 'https://n8n.a2dzespol.pl/webhook/3349af0f-ead6-4ba5-a535-f9c993b8fe19'; 
         const URL_SIGNUP  = 'https://n8n.a2dzespol.pl/webhook/f8f58561-ed9e-4a49-b273-7776ba9073a3'; 
         const URL_VERIFY  = 'https://n8n.a2dzespol.pl/webhook/e05cd05b-f854-48ca-bc15-ca75ca32edf9'; 
@@ -455,39 +462,52 @@
         window.currentAppLanguage = 'vn';
 
         // ==========================================
-        // TÍNH NĂNG MỚI: GIỚI HẠN TIN NHẮN KHÁCH & ÉP ĐĂNG XUẤT
+        // TÍNH NĂNG MỚI: GIỚI HẠN TIN NHẮN KHÁCH & ÉP ĐĂNG XUẤT THIẾT BỊ
         // ==========================================
-        const MAX_GUEST_MESSAGES = 3; // <-- SỬA GIỚI HẠN SỐ LƯỢNG TIN NHẮN Ở ĐÂY
+        const MAX_GUEST_MESSAGES = 3; 
         
         const originalFetch = window.fetch;
         window.fetch = async function(...args) {
             const [resource, config] = args;
             const url = typeof resource === 'string' ? resource : resource.url;
 
-            // Kiểm tra nếu n8n chat widget đang gửi tin nhắn lên webhook
             if (url && url.includes(URL_CHAT) && config && config.method === 'POST') {
-                
-                // Kiểm tra xem người dùng hiện tại có phải là tài khoản khách không
                 if (window.userEmail && window.userEmail.includes('@a2d-guest.local')) {
                     let currentCount = parseInt(localStorage.getItem('a2d_guest_msg_count') || '0');
                     
                     if (currentCount >= MAX_GUEST_MESSAGES) {
-                        // 1. Hiển thị thông báo bắt buộc cho người dùng (Code sẽ tạm dừng ở đây cho đến khi user bấm OK)
                         alert(`Bạn đã đạt giới hạn dùng thử miễn phí (${MAX_GUEST_MESSAGES} tin nhắn).\n\nVui lòng đăng nhập hoặc tạo tài khoản để tiếp tục sử dụng dịch vụ!`);
                         
-                        // 2. Ép văng ra màn hình đăng nhập, hủy chat ngay lập tức
-                        window.handleLogout(); 
+                        // LƯU CỜ KHÓA THIẾT BỊ NÀY LẠI
+                        localStorage.setItem('a2d_guest_blocked', 'true');
                         
-                        // 3. Chặn không cho tin nhắn này đẩy lên hệ thống backend nữa
+                        window.handleLogout(); 
                         return Promise.reject(new Error("Guest limit reached")); 
                     }
                     
-                    // Nếu chưa vượt quá số lượng, tiếp tục đếm
                     localStorage.setItem('a2d_guest_msg_count', currentCount + 1);
                 }
             }
-            // Cho phép các request khác chạy bình thường
             return originalFetch.apply(this, args);
+        };
+
+        // HÀM KIỂM TRA VÀ KHÓA NÚT GUEST NẾU THIẾT BỊ ĐÃ HẾT LƯỢT
+        window.checkGuestBlockStatus = function() {
+            const isBlocked = localStorage.getItem('a2d_guest_blocked') === 'true';
+            const guestBtn = document.querySelector('.btn-guest');
+            
+            if (isBlocked && guestBtn) {
+                // Vô hiệu hóa tính năng click
+                guestBtn.disabled = true;
+                
+                // CSS làm mờ và hiển thị con trỏ cấm
+                guestBtn.style.opacity = '0.5';
+                guestBtn.style.cursor = 'not-allowed';
+                guestBtn.style.pointerEvents = 'none'; // Ngăn chặn sự kiện click
+                
+                // Đổi giao diện nút để báo cho người dùng
+                guestBtn.innerHTML = '<i class="fas fa-lock"></i> Đã hết lượt dùng Khách';
+            }
         };
         // ==========================================
 
@@ -497,7 +517,6 @@
                 chatContainer.innerHTML = ''; // Xóa hoàn toàn giao diện chat
             }
             
-            // Tìm và xóa bộ nhớ cache của n8n trong localStorage
             const keysToRemove = [];
             for (let i = 0; i < localStorage.length; i++) {
                 const key = localStorage.key(i);
@@ -630,6 +649,9 @@
                 switchModeGroup.innerHTML = '<span onclick="changeAuthMode(\'login\')">Hủy và quay lại <span>Đăng nhập</span></span>';
                 if(socialAuthGroup) socialAuthGroup.classList.add('hidden');
             }
+            
+            // Cập nhật lại trạng thái chặn Guest mỗi khi load form
+            window.checkGuestBlockStatus();
         }
 
         window.changeAuthMode('login');
@@ -705,6 +727,11 @@
         }
 
         window.handleGuestLogin = function() {
+            if (localStorage.getItem('a2d_guest_blocked') === 'true') {
+                alert("Thiết bị này đã sử dụng hết lượt Khách.");
+                return;
+            }
+
             const btn = document.querySelector('.btn-guest');
             const originalText = btn.innerHTML;
             btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Đang tải...';
@@ -713,7 +740,6 @@
             setTimeout(() => {
                 const guestId = 'guest_' + Math.floor(Math.random() * 100000);
                 
-                // RESET BỘ ĐẾM KHI BẤM NÚT GUEST (ĐỂ TÍNH LẠI TỪ 0)
                 localStorage.setItem('a2d_guest_msg_count', '0'); 
                 
                 loginSuccess(`${guestId}@a2d-guest.local`, null, new Date().toISOString());
@@ -722,16 +748,71 @@
             }, 800);
         }
 
+        // ========================================================
+        // 2. CHÚ Ý: ĐIỀN CLIENT ID CỦA BẠN VÀO HÀM NÀY
+        // ========================================================
+        window.onload = function () {
+            // Khởi tạo thư viện Google
+            if (window.google && google.accounts && google.accounts.id) {
+                google.accounts.id.initialize({
+                    client_id: "305607144766-rsp6v0i6b0n83u989ojpinptq5a9l21c.apps.googleusercontent.com",
+                    callback: handleGoogleCallback,
+                    auto_select: false 
+                });
+            }
+            
+            // Chạy kiểm tra block khi mới vào web
+            window.checkGuestBlockStatus();
+        };
+
         window.handleGoogleLogin = function() {
-            console.log("Đã click Google Login - Cần tích hợp Firebase hoặc OAuth2 flow");
-            document.getElementById('message').className = "success";
-            document.getElementById('message').innerText = "Đang chuyển hướng sang Google...";
+            const msg = document.getElementById('message');
+            msg.className = "success";
+            msg.innerText = "Đang mở cửa sổ kết nối Google...";
+            
+            if (window.google && google.accounts && google.accounts.id) {
+                google.accounts.id.prompt((notification) => {
+                    if (notification.isNotDisplayed() || notification.isSkippedMoment()) {
+                        msg.className = "error";
+                        msg.innerText = "Trình duyệt chặn popup. Hãy cho phép hiển thị popup để đăng nhập bằng Google.";
+                    }
+                });
+            } else {
+                msg.className = "error";
+                msg.innerText = "Lỗi thư viện Google. Vui lòng thử lại sau.";
+            }
+        }
+
+        window.handleGoogleCallback = async function(response) {
+            const googleToken = response.credential;
+            const msg = document.getElementById('message');
+            msg.innerText = "Đang xác thực tài khoản Google với hệ thống...";
+            msg.className = "success";
+
+            try {
+                // Gửi Token lên webhook n8n
+                const res = await fetch(URL_GOOGLE_LOGIN, { 
+                    method: 'POST', 
+                    headers: {'Content-Type': 'application/json'}, 
+                    body: JSON.stringify({ token: googleToken }) 
+                });
+                
+                const data = await res.json();
+                
+                if (data.status === 'success') { 
+                    loginSuccess(data.email, data.Thread_ID || data.threadId, data.Created_at || data.createdAt); 
+                } else {
+                    throw new Error(data.message || "Xác thực Google thất bại trên hệ thống.");
+                }
+            } catch (err) { 
+                msg.className = "error"; 
+                msg.innerText = err.message; 
+            }
         }
 
         function loginSuccess(email, Thread_ID, Created_at) {
             window.userEmail = email; window.userThread_ID = Thread_ID; window.userCreated_at = Created_at; 
             
-            // XÓA BỘ ĐẾM NẾU NGƯỜI DÙNG THẬT ĐĂNG NHẬP (CHO GỌN BỘ NHỚ)
             if (!email.includes('@a2d-guest.local')) {
                 localStorage.removeItem('a2d_guest_msg_count');
             }
