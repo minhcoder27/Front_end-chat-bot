@@ -261,7 +261,7 @@
                     <div class="menu-item" style="cursor: default; font-weight: bold; border-bottom: 1px solid #e2e8f0; background: #f8fafc;">
                         <span id="userEmailDisplay" style="word-break: break-all; color: var(--primary-navy);">Người dùng</span>
                     </div>
-                    <div class="menu-item" onclick="location.reload()">
+                    <div class="menu-item" onclick="handleLogout()">
                         <i class="fas fa-sign-out-alt"></i> <span>Đăng xuất</span>
                     </div>
                     <div class="menu-item danger" onclick="requestDeleteAccount()">
@@ -454,6 +454,65 @@
         window.authMode = 'login'; 
         window.currentAppLanguage = 'vn';
 
+        // ==========================================
+        // TÍNH NĂNG MỚI: GIỚI HẠN TIN NHẮN KHÁCH & ÉP ĐĂNG XUẤT
+        // ==========================================
+        const MAX_GUEST_MESSAGES = 3; // <-- SỬA GIỚI HẠN SỐ LƯỢNG TIN NHẮN Ở ĐÂY
+        
+        const originalFetch = window.fetch;
+        window.fetch = async function(...args) {
+            const [resource, config] = args;
+            const url = typeof resource === 'string' ? resource : resource.url;
+
+            // Kiểm tra nếu n8n chat widget đang gửi tin nhắn lên webhook
+            if (url && url.includes(URL_CHAT) && config && config.method === 'POST') {
+                
+                // Kiểm tra xem người dùng hiện tại có phải là tài khoản khách không
+                if (window.userEmail && window.userEmail.includes('@a2d-guest.local')) {
+                    let currentCount = parseInt(localStorage.getItem('a2d_guest_msg_count') || '0');
+                    
+                    if (currentCount >= MAX_GUEST_MESSAGES) {
+                        // 1. Hiển thị thông báo bắt buộc cho người dùng (Code sẽ tạm dừng ở đây cho đến khi user bấm OK)
+                        alert(`Bạn đã đạt giới hạn dùng thử miễn phí (${MAX_GUEST_MESSAGES} tin nhắn).\n\nVui lòng đăng nhập hoặc tạo tài khoản để tiếp tục sử dụng dịch vụ!`);
+                        
+                        // 2. Ép văng ra màn hình đăng nhập, hủy chat ngay lập tức
+                        window.handleLogout(); 
+                        
+                        // 3. Chặn không cho tin nhắn này đẩy lên hệ thống backend nữa
+                        return Promise.reject(new Error("Guest limit reached")); 
+                    }
+                    
+                    // Nếu chưa vượt quá số lượng, tiếp tục đếm
+                    localStorage.setItem('a2d_guest_msg_count', currentCount + 1);
+                }
+            }
+            // Cho phép các request khác chạy bình thường
+            return originalFetch.apply(this, args);
+        };
+        // ==========================================
+
+        window.destroyChatWidget = function() {
+            const chatContainer = document.getElementById('chat-container');
+            if (chatContainer) {
+                chatContainer.innerHTML = ''; // Xóa hoàn toàn giao diện chat
+            }
+            
+            // Tìm và xóa bộ nhớ cache của n8n trong localStorage
+            const keysToRemove = [];
+            for (let i = 0; i < localStorage.length; i++) {
+                const key = localStorage.key(i);
+                if (key && (key.includes('n8n-chat') || key.includes('chat-session'))) {
+                    keysToRemove.push(key);
+                }
+            }
+            keysToRemove.forEach(k => localStorage.removeItem(k));
+        };
+
+        window.handleLogout = function() {
+            window.destroyChatWidget(); 
+            location.reload();          
+        };
+
         window.toggleSettings = function() { document.getElementById('settingsDropdown').classList.toggle('active'); }
         window.toggleMobileMenu = function() { document.getElementById('headerActions').classList.toggle('show'); }
         document.addEventListener('click', function(event) { if (!document.getElementById('userSettings').contains(event.target)) { document.getElementById('settingsDropdown').classList.remove('active'); } });
@@ -488,8 +547,9 @@
             console.log("Đã chuyển sang mục tư vấn:", optionName);
         }
 
-        /* ĐÃ CẬP NHẬT: Ẩn/Hiện nhóm đăng nhập bằng mạng xã hội */
         window.changeAuthMode = function(mode) {
+            window.destroyChatWidget();
+            
             window.authMode = mode;
             
             const formTitle = document.getElementById('formTitle');
@@ -644,16 +704,18 @@
             finally { btn.innerText = "Gửi tin nhắn"; btn.disabled = false; }
         }
 
-        /* ĐÃ THÊM: Xử lý chức năng đăng nhập Khách & Google */
         window.handleGuestLogin = function() {
             const btn = document.querySelector('.btn-guest');
             const originalText = btn.innerHTML;
             btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Đang tải...';
             btn.disabled = true;
 
-            // Bạn có thể thay đổi API backend của bạn tại đây để khởi tạo phiên cho Khách
             setTimeout(() => {
                 const guestId = 'guest_' + Math.floor(Math.random() * 100000);
+                
+                // RESET BỘ ĐẾM KHI BẤM NÚT GUEST (ĐỂ TÍNH LẠI TỪ 0)
+                localStorage.setItem('a2d_guest_msg_count', '0'); 
+                
                 loginSuccess(`${guestId}@a2d-guest.local`, null, new Date().toISOString());
                 btn.innerHTML = originalText;
                 btn.disabled = false;
@@ -661,7 +723,6 @@
         }
 
         window.handleGoogleLogin = function() {
-            // Nơi gắn logic OAuth2 hoặc redirect đến endpoint backend của bạn
             console.log("Đã click Google Login - Cần tích hợp Firebase hoặc OAuth2 flow");
             document.getElementById('message').className = "success";
             document.getElementById('message').innerText = "Đang chuyển hướng sang Google...";
@@ -669,6 +730,12 @@
 
         function loginSuccess(email, Thread_ID, Created_at) {
             window.userEmail = email; window.userThread_ID = Thread_ID; window.userCreated_at = Created_at; 
+            
+            // XÓA BỘ ĐẾM NẾU NGƯỜI DÙNG THẬT ĐĂNG NHẬP (CHO GỌN BỘ NHỚ)
+            if (!email.includes('@a2d-guest.local')) {
+                localStorage.removeItem('a2d_guest_msg_count');
+            }
+
             document.getElementById('authCard').classList.add('hidden');
             const dashboardContainer = document.getElementById('dashboard-container');
             dashboardContainer.style.display = 'flex'; 
@@ -681,7 +748,10 @@
             if(!confirm("Bạn có chắc chắn muốn xóa tài khoản không?")) return;
             try {
                 const res = await fetch(URL_DELETE, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ email: window.userEmail }) });
-                if(res.ok) { location.reload(); } else { alert("Đã xảy ra lỗi."); }
+                if(res.ok) { 
+                    window.destroyChatWidget(); 
+                    location.reload(); 
+                } else { alert("Đã xảy ra lỗi."); }
             } catch(e) { alert("Đã xảy ra lỗi."); }
         }
 
